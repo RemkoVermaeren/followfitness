@@ -2,7 +2,7 @@
 
     'use strict';
 
-    angular.module('followFitnessApp').factory('auth', authService);
+    angular.module('followFitnessApp').factory('authServic', authService);
 
     authService.$inject = ['$http', '$window', '$log'];
 

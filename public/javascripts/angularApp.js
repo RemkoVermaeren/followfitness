@@ -25,26 +25,41 @@
         //     }]
         // })
             $stateProvider.state('trainings', {
-                url: '/{id}/trainings',
+                url: '/trainings',
                 templateUrl: '/trainings.html',
                 controller : 'TrainingController',
                 controllerAs : 'ctrl',
-                resolve: {
-                    menus: ['$stateParams', 'trainingService', function($stateParams, trainingService) {
-                        return trainingService.get($stateParams.id);
-                    }]
-                }
+                onEnter: ['$state', 'auth', function($state, auth) {
+                    if (!auth.isLoggedIn()) {
+                        $state.go('login');
+                    }
+                }]
+                // resolve: {
+                //     trainings: ['$stateParams', 'trainingService', function($stateParams, trainingService) {
+                //         return trainingService.getAll();
+                //     }]
+                // }
             }).state('login', {
             url: '/login',
             templateUrl: '/login.html',
             controller: 'AuthController',
-            controllerAs: 'ctrl'
+            controllerAs: 'ctrl',
+                onEnter: ['$state', 'auth', function($state, auth) {
+                    if (auth.isLoggedIn()) {
+                        $state.go('home');
+                    }
+                }]
 
         }).state('register', {
             url: '/register',
             templateUrl: '/register.html',
             controller: 'AuthController',
-            controllerAs: 'ctrl'
+            controllerAs: 'ctrl',
+                onEnter: ['$state', 'auth', function($state, auth) {
+                    if (auth.isLoggedIn()) {
+                        $state.go('trainings');
+                    }
+                }]
 
         });
         $urlRouterProvider.otherwise('login');

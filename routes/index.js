@@ -65,5 +65,27 @@
     })(req, res, next);
   });
 
+  //TODO: Param for username
+  router.param('username', function(req, res, next, username) {
+    var query = User.find({username: username});
+
+    query.exec(function(err, user) {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        return next(new Error('can\'t find user'));
+      }
+
+      req.user = user;
+      return next();
+    });
+  });
+
+  //Get a specific user
+  router.get('/api/:username', function(req, res) {
+    res.json(req.user);
+  });
+
   module.exports = router;
 })();

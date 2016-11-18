@@ -13,13 +13,6 @@
         vm.logOut = logOut;
         vm.currentUser = currentUser;
 
-        //activate();
-
-        // function activate() {
-        //     return getAll().then(function () {
-        //         $log.log("Users were retrieved");
-        //     });
-        // }
         function register() {
             $log.log(vm.user);
             auth.register(vm.user).error(function (error) {
@@ -27,11 +20,12 @@
                 vm.error = error;
                 vm.message = error.message;
             }).then(function () {
-               // $state.go('home');
+               $state.go('trainings');
                 $log.log(vm.user);
 
             });
         }
+
         function logIn() {
             auth.logIn(vm.user).error(function (error) {
                 vm.error = error;
@@ -39,15 +33,18 @@
                 vm.message = error.message;
             }).then(function () {
                 $log.log(vm.user);
-               // $state.go('home');
+               $state.go('trainings');
             });
         }
+
         function isLoggedIn() {
             return auth.isLoggedIn();
         }
 
         function logOut() {
-            auth.logOut();
+            auth.logOut().then(function(){
+                $state.go('login');
+            });
         }
 
         function currentUser() {
@@ -56,15 +53,6 @@
             $log.log(currentUser);
             $log.log("Currentuser: " + vm.user.username);
             return vm.user.username;
-        }
-
-        function getAll() {
-            return auth.getAll()
-                .then(function (data) {
-                    $log.log("getUsers in Auth was called");
-                    vm.users = data.data;
-                    return vm.users;
-                });
         }
     }
 
