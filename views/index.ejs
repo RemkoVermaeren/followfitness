@@ -3,14 +3,15 @@
 <head>
     <title>FollowFitness - By Remko</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
-
-    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <!--<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">-->
     <link href="/stylesheets/style.css" type="text/css" rel="stylesheet">
 
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-touch.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.3.3.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script src="/javascripts/followFitnessApp.module.js"></script>
     <script src="/javascripts/angularApp.js"></script>
@@ -73,6 +74,17 @@
 <script type="text/ng-template" id="/trainings.html">
     <div class="page-header">
         <h2>Trainings</h2>
+        <uib-accordion>
+            <div uib-accordion-group class="panel-default" ng-repeat="training in ctrl.trainings">
+                <uib-accordion-heading>
+                    {{training.name}} op {{training.date | date:'dd-MM-yyyy'}} <i class="pull-right glyphicon glyphicon-chevron-down"></i>
+                </uib-accordion-heading>
+                {{training.description}}
+                <div class="pull-right">
+                    <a href="#/{{training._id}}/newexercise">Add exercise</a>
+                </div>
+            </div>
+        </uib-accordion>
     </div>
 </script>
 <script type="text/ng-template" id="/login.html">
@@ -86,6 +98,7 @@
                    ng-model="ctrl.user.password"/>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
         </form>
+
     </div>
 </script>
 <script type="text/ng-template" id="/register.html">

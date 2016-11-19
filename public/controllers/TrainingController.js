@@ -15,11 +15,17 @@
         vm.addTraining = addTraining;
 
 
+        activate();
+
+
+        function activate() {
+            return getTrainings()
+        }
+
         function getTrainings() {
             return trainingService.getAll()
                 .then(function(data) {
-                    $log.log("getTrainings in TrainingsController was called")
-                    vm.training = data.data;
+                    vm.trainings = data.data;
                     return vm.trainings;
                 });
          }

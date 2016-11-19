@@ -1,4 +1,4 @@
 (function() {
     'use strict';
-    angular.module('followFitnessApp', ['ui.router']);
+    angular.module('followFitnessApp', ['ui.router','ui.bootstrap']);
 })();

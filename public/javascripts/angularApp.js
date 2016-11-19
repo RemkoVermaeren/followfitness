@@ -7,23 +7,7 @@
     followFitnessState.$inject = ['$stateProvider', '$urlRouterProvider']
 
     function followFitnessState($stateProvider, $urlRouterProvider) {
-        // $stateProvider.state('home', {
-        //     url: '/home',
-        //     templateUrl: '/home.html',
-        //     controller: 'MainController',
-        //     controllerAs: 'ctrl',
-        //     resolve: {
-        //         trainingPromise: ['traingingService', function(trainingService) {
-        //             return trainingService.getAll();
-        //         }]
-        //     },
-        //     onEnter: ['$state', 'auth',
-        //         function($state, auth) {
-        //         if (!auth.isLoggedIn()) {
-        //             $state.go('login');
-        //         }
-        //     }]
-        // })
+
             $stateProvider.state('trainings', {
                 url: '/trainings',
                 templateUrl: '/trainings.html',
@@ -33,12 +17,12 @@
                     if (!authService.isLoggedIn()) {
                         $state.go('login');
                     }
+                }],
+                resolve: {
+                trainings: ['trainingService', function(trainingService) {
+                         return trainingService.getAll();
                 }]
-                // resolve: {
-                //     trainings: ['$stateParams', 'trainingService', function($stateParams, trainingService) {
-                //         return trainingService.getAll();
-                //     }]
-                // }
+                }
             }).state('newtraining', {
                 url: '/newtraining',
                 templateUrl: '/newtraining.html',

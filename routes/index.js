@@ -109,6 +109,7 @@
   });
 
     router.get('/api/:username/trainings', function(req, res, next) {
+
         Training.find({
             user: req.user._id
         }, function(err, trainings) {
@@ -118,6 +119,7 @@
 
             res.json(trainings);
         });
+
     });
 
 

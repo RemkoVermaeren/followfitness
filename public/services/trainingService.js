@@ -19,7 +19,7 @@
         function getAll() {
             var user = authService.currentUser();
             return $http.get('/api/' +  user + "/trainings").success(function(data) {
-                return data;
+                return data.data;
             });
         }
 
