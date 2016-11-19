@@ -4,24 +4,30 @@
 
     angular.module('followFitnessApp').controller('TrainingController', TrainingController);
 
-    TrainingController.$inject = ['$log', 'trainingService', 'auth', '$state', '$stateParams'];
+    TrainingController.$inject = ['$log', 'trainingService', 'authService', '$state', '$stateParams'];
 
-    function TrainingController($log, trainingService, auth, $state, $stateParams) {
+    function TrainingController($log, trainingService, authService, $state, $stateParams) {
         var vm = this;
         //vm.isLoggedIn = authService.isLoggedIn;
         vm.trainings = [];
         vm.training;
         vm.getTrainings = getTrainings;
+        vm.addTraining = addTraining;
 
 
         function getTrainings() {
-            $log.log("get training in ctrl");
-        //     return trainingService.getAll()
-        //         .then(function(data) {
-        //             $log.log("getTrainings in TrainingsController was called")
-        //             vm.training = data.data;
-        //             return vm.trainings;
-        //         });
+            return trainingService.getAll()
+                .then(function(data) {
+                    $log.log("getTrainings in TrainingsController was called")
+                    vm.training = data.data;
+                    return vm.trainings;
+                });
+         }
+
+         function addTraining() {
+             return trainingService.create(vm.training).then(function(data){
+                 vm.trainings.push(data.data);
+             });
          }
     }
 

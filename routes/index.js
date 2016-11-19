@@ -67,7 +67,7 @@
 
   //TODO: Param for username
   router.param('username', function(req, res, next, username) {
-    var query = User.find({username: username});
+    var query = User.findOne({username: username});
 
     query.exec(function(err, user) {
       if (err) {
@@ -86,6 +86,40 @@
   router.get('/api/:username', function(req, res) {
     res.json(req.user);
   });
+
+  router.post('/api/:username/trainings', function(req, res, next) {
+    var training = new Training(req.body);
+
+    training.user = req.user;
+      console.log(training);
+      console.log(req.user);
+    training.save(function(err, training) {
+        console.log(training);
+      if (err) {
+        return next(err);
+      }
+      req.user.trainings.push(training);
+      req.user.save(function(err, training) {
+        if (err) {
+          return next(err);
+        }
+        res.json(training);
+      });
+    });
+  });
+
+    router.get('/api/:username/trainings', function(req, res, next) {
+        Training.find({
+            user: req.user._id
+        }, function(err, trainings) {
+            if (err) {
+                return next(err);
+            }
+
+            res.json(trainings);
+        });
+    });
+
 
   module.exports = router;
 })();

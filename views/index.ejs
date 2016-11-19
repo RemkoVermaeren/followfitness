@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>FollowFitness - By Remko</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
@@ -44,7 +43,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#/home">FollowFitness</a>
+            <a class="navbar-brand" href="#/trainings">FollowFitness</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -58,6 +57,7 @@
                     <li ng-hide="ctrl.isLoggedIn()"><a href="#/login">Log In</a></li>
                     <li ng-hide="ctrl.isLoggedIn()"><a href="#/register">Register</a></li>
                     <li ng-show="ctrl.isLoggedIn()"><a href="#/trainings">Trainings</a></li>
+                    <li ng-show="ctrl.isLoggedIn()"><a href="#/newtraining">Add training</a></li>
                 </ul>
             </ul>
         </div>
@@ -103,7 +103,27 @@
     </div>
 </script>
 
+<script type="text/ng-template" id="/newtraining.html">
+    <div class="page-header">
+        <h2>Add new training</h2>
+    </div>
+    <form ng-submit="ctrl.addTraining()" class="css-form" validate>
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" class="form-control" placeholder="Name" ng-model="ctrl.training.name" required></input>
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <input type="text" class="form-control" placeholder="Description"  ng-model="ctrl.training.description" required></input>
+        </div>
+        <div class="form-group">
+            <label>Date</label>
+            <input type="date" class="form-control" placeholder="Date" ng-model="ctrl.training.date" required></input>
+        </div>
+        <button class="btn btn-success" type="submit">Add training</button>
+    </form>
+</script>
+
 
 </body>
-
 </html>

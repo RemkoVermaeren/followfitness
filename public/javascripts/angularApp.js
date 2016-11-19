@@ -29,8 +29,8 @@
                 templateUrl: '/trainings.html',
                 controller : 'TrainingController',
                 controllerAs : 'ctrl',
-                onEnter: ['$state', 'auth', function($state, auth) {
-                    if (!auth.isLoggedIn()) {
+                onEnter: ['$state', 'authService', function($state, authService) {
+                    if (!authService.isLoggedIn()) {
                         $state.go('login');
                     }
                 }]
@@ -39,13 +39,19 @@
                 //         return trainingService.getAll();
                 //     }]
                 // }
-            }).state('login', {
+            }).state('newtraining', {
+                url: '/newtraining',
+                templateUrl: '/newtraining.html',
+                controller: 'TrainingController',
+                controllerAs : 'ctrl'
+                }
+            ).state('login', {
             url: '/login',
             templateUrl: '/login.html',
             controller: 'AuthController',
             controllerAs: 'ctrl',
-                onEnter: ['$state', 'auth', function($state, auth) {
-                    if (auth.isLoggedIn()) {
+                onEnter: ['$state', 'authService', function($state, authService) {
+                    if (authService.isLoggedIn()) {
                         $state.go('home');
                     }
                 }]
@@ -55,8 +61,8 @@
             templateUrl: '/register.html',
             controller: 'AuthController',
             controllerAs: 'ctrl',
-                onEnter: ['$state', 'auth', function($state, auth) {
-                    if (auth.isLoggedIn()) {
+                onEnter: ['$state', 'authService', function($state, authService) {
+                    if (authService.isLoggedIn()) {
                         $state.go('trainings');
                     }
                 }]

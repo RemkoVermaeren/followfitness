@@ -3,13 +3,13 @@
 
     angular.module('followFitnessApp').controller('NavController', NavController);
 
-    NavController.$inject = ['auth'];
+    NavController.$inject = ['authService'];
 
-    function NavController(auth){
+    function NavController(authService){
       var vm = this;
-      vm.isLoggedIn = auth.isLoggedIn;
-      vm.currentUser = auth.currentUser;
-      vm.logOut = auth.logOut;
+      vm.isLoggedIn = authService.isLoggedIn;
+      vm.currentUser = authService.currentUser;
+      vm.logOut = authService.logOut;
     }
 
 })();
