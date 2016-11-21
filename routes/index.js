@@ -108,16 +108,12 @@
     router.get('/api/:username/trainings', function(req, res, next) {
         Training.find({
             user: req.user._id
-        }, function(err, trainings) {
-            if (err) {
+        }).populate('exercises').exec(function(err,trainings){
+            if(err){
                 return next(err);
             }
-            var promise = Training.populate(trainings, "exercises");
-            promise.end();
             res.json(trainings);
-
         });
-
     });
 
   router.param('training', function(req, res, next, id) {

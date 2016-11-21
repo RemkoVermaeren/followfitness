@@ -57,15 +57,28 @@
                     {{training.name}} on {{training.date | date:'dd-MM-yyyy'}}  <i class="pull-right glyphicon glyphicon-chevron-down"></i>
                 </uib-accordion-heading>
                 {{training.description}}
-                <ul>
-                    <li ng-repeat="ex in training.exercises"> {{ex.name}} on machine {{ex.machine}}</li>
-                </ul>
-                {{training.isCompleted}}
-                <i class="glyphicon glyphicon-ok" ng-click="ctrl.setCompleted(training)"></i>
+                <uib-accordion>
+                    <h3>Exercises</h3>
+                    <div uib-accordion-group class="panel-default" ng-repeat="exercise in training.exercises">
+                        <uib-accordion-heading>
+                            {{exercise.name}} <i class="pull-right glyphicon glyphicon-chevron-down"></i>
+                        </uib-accordion-heading>
+                        Machine : {{exercise.machine}}
+                        <ul class="list-unstyled">
+                            <li ng-repeat="set in exercise.sets" >
+                                Weight : {{set.weight}} - Repeat : {{set.repeat}}
+                            </li>
+                        </ul>
+                        <div class="pull-right">
+                            <!--<p>TODO</p>-->
+                        </div>
+                    </div>
+                </uib-accordion>
+                <!--{{training.isCompleted}}-->
+                <!--<i class="glyphicon glyphicon-ok" ng-click="ctrl.setCompleted(training)"></i>-->
 
                 <div class="pull-right">
                     <a href="#/{{training._id}}/newexercise">Add exercise</a>
-                    <a href="#/{{training._id}}/exercises">Show exercises</a>
                     <a href="#/{{training._id}}/edit">Edit Training</a>
                 </div>
             </div>
