@@ -91,10 +91,7 @@
     var training = new Training(req.body);
 
     training.user = req.user;
-      console.log(training);
-      console.log(req.user);
     training.save(function(err, training) {
-        console.log(training);
       if (err) {
         return next(err);
       }
@@ -109,15 +106,62 @@
   });
 
     router.get('/api/:username/trainings', function(req, res, next) {
-
         Training.find({
             user: req.user._id
         }, function(err, trainings) {
             if (err) {
                 return next(err);
             }
-
+            var promise = Training.populate(trainings, "exercises");
+            promise.end();
             res.json(trainings);
+
+        });
+
+    });
+
+  router.param('training', function(req, res, next, id) {
+    var query = Training.findById(id);
+
+    query.exec(function(err, training) {
+      if (err) {
+        return next(err);
+      }
+      if (!training) {
+        return next(new Error('can\'t find training'));
+      }
+
+      req.training = training;
+      return next();
+    });
+  });
+
+  router.post('/api/:username/trainings/:training', function(req, res, next) {
+    var exercise = new Exercise(req.body);
+    exercise.training= req.training;
+    exercise.save(function(err, exercise) {
+      if (err) {
+        return next(err);
+      }
+      req.training.exercises.push(exercise);
+      req.training.save(function(err, exercise) {
+        if (err) {
+          return next(err);
+        }
+        res.json(exercise);
+      });
+    });
+  });
+    router.get('/api/:username/trainings/:training', function(req, res, next) {
+
+        Exercise.find({
+            training: req.training._id
+        }, function(err, exercises) {
+            if (err) {
+                return next(err);
+            }
+
+            res.json(exercises);
         });
 
     });

@@ -29,6 +29,28 @@
                 controller: 'TrainingController',
                 controllerAs : 'ctrl'
                 }
+            ).state('newexercise', {
+                url: '/{id}/newexercise',
+                templateUrl: '/newexercise.html',
+                controller: 'ExerciseController',
+                controllerAs: 'ctrl'
+                ,
+                resolve: {
+                    exercises: ['$stateParams', 'exerciseService', function ($stateParams, exerciseService) {
+                        return exerciseService.setTrainingId($stateParams.id);
+                    }]
+                }}
+            ).state('exercises', {
+                url: '/{id}/exercises',
+                templateUrl: '/exercises.html',
+                controller: 'ExerciseController',
+                controllerAs: 'ctrl'
+                ,
+                resolve: {
+                    exercises: ['$stateParams', 'exerciseService', function ($stateParams, exerciseService) {
+                        return exerciseService.setTrainingId($stateParams.id);
+                    }]
+                }}
             ).state('login', {
             url: '/login',
             templateUrl: '/login.html',
@@ -36,7 +58,7 @@
             controllerAs: 'ctrl',
                 onEnter: ['$state', 'authService', function($state, authService) {
                     if (authService.isLoggedIn()) {
-                        $state.go('home');
+                        $state.go('trainings');
                     }
                 }]
 

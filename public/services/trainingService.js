@@ -31,45 +31,6 @@
                 return data;
             });
         }
-
-        // function create(restaurant) {
-        //     return $http.post('/api/restaurants', restaurant, {
-        //         headers: {
-        //             Authorization: 'Bearer' + authService.getToken()
-        //         }
-        //     }).success(function(data) {
-        //         // push data on array of resto in factory
-        //         return data;
-        //     });
-        // };
-        //
-        // function get(id) {
-        //     return $http.get('/api/restaurants/' + id).then(function(res) {
-        //         return res.data;
-        //     });
-        // };
-        //
-        // function update(id, restaurant) {
-        //     $log.log("update in restaurantService was called")
-        //     return $http.put('/api/restaurants/' + id, restaurant, {
-        //         headers: {
-        //             Authorization: 'Bearer' + authService.getToken()
-        //         }
-        //     }).success(function(data) {
-        //         return data;
-        //     });
-        //
-        // };
-        //
-        // function deleteRestaurant(restaurant) {
-        //     return $http.delete('/api/restaurants/' + restaurant._id, {
-        //         headers: {
-        //             Authorization: 'Bearer' + authService.getToken()
-        //         }
-        //     }).then(function(res) {
-        //         return res.data;
-        //     })
-        // };
     }
 
 
