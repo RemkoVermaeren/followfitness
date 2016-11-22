@@ -29,11 +29,12 @@
                     return vm.trainings;
                 });
          }
-
+        //TODO: push(data.data) instead of getTrainings()
          function addTraining() {
              return trainingService.create(vm.training).then(function(data){
+                 $log.log(data.data);
                  vm.trainings.push(data.data);
-             });
+             }).then(getTrainings());
          }
     }
 

@@ -2,9 +2,9 @@
 
     'use strict';
 
-    angular.module('followFitnessApp').config(followFitnessState)
+    angular.module('followFitnessApp').config(followFitnessState);
 
-    followFitnessState.$inject = ['$stateProvider', '$urlRouterProvider']
+    followFitnessState.$inject = ['$stateProvider', '$urlRouterProvider'];
 
     function followFitnessState($stateProvider, $urlRouterProvider) {
 
@@ -15,7 +15,7 @@
                 controllerAs : 'ctrl',
                 onEnter: ['$state', 'authService', function($state, authService) {
                     if (!authService.isLoggedIn()) {
-                        $state.go('login');
+                        $state.go('register');
                     }
                 }],
                 resolve: {
@@ -44,8 +44,7 @@
                 url: '/{id}/exercises',
                 templateUrl: '/exercises.html',
                 controller: 'ExerciseController',
-                controllerAs: 'ctrl'
-                ,
+                controllerAs: 'ctrl',
                 resolve: {
                     exercises: ['$stateParams', 'exerciseService', function ($stateParams, exerciseService) {
                         return exerciseService.setTrainingId($stateParams.id);
@@ -55,26 +54,17 @@
             url: '/login',
             templateUrl: '/login.html',
             controller: 'AuthController',
-            controllerAs: 'ctrl',
-                onEnter: ['$state', 'authService', function($state, authService) {
-                    if (authService.isLoggedIn()) {
-                        $state.go('trainings');
-                    }
-                }]
+            controllerAs: 'ctrl'
+
 
         }).state('register', {
             url: '/register',
             templateUrl: '/register.html',
             controller: 'AuthController',
-            controllerAs: 'ctrl',
-                onEnter: ['$state', 'authService', function($state, authService) {
-                    if (authService.isLoggedIn()) {
-                        $state.go('trainings');
-                    }
-                }]
+            controllerAs: 'ctrl'
 
         });
-        $urlRouterProvider.otherwise('login');
-    };
+        $urlRouterProvider.otherwise('register');
+    }
 
 })();

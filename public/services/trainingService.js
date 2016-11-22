@@ -7,14 +7,12 @@
 
     function trainingService($log, $http, authService) {
 
-
-        var service = {
+        return {
             getAll: getAll,
             create: create
             // get: get,
             // update: update,
         };
-        return service;
 
         function getAll() {
             var user = authService.currentUser();

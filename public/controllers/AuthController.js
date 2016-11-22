@@ -42,9 +42,8 @@
         }
 
         function logOut() {
-            authService.logOut().then(function(){
-                $state.go('login');
-            });
+            return authService.logOut();
+
         }
 
         function currentUser() {

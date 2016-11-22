@@ -34,7 +34,7 @@
         function addExercise() {
             return exerciseService.create(vm.exercise).then(function(data){
                 vm.exercises.push(data.data);
-            });
+            }).then($state.go('trainings'));
         }
     }
 

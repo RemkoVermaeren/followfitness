@@ -1,15 +1,21 @@
-(function(){
+(function () {
     'use strict';
 
     angular.module('followFitnessApp').controller('NavController', NavController);
 
-    NavController.$inject = ['authService'];
+    NavController.$inject = ['authService', '$state'];
 
-    function NavController(authService){
-      var vm = this;
-      vm.isLoggedIn = authService.isLoggedIn;
-      vm.currentUser = authService.currentUser;
-      vm.logOut = authService.logOut;
+    function NavController(authService, $state) {
+        var vm = this;
+        vm.isLoggedIn = authService.isLoggedIn;
+        vm.currentUser = authService.currentUser;
+        vm.logOut = authService.logOut;
+
+        // function logOut() {
+        //
+        //         $state.go('register').then(function(){authService.logOut()});
+        //
+        // }
     }
 
 })();

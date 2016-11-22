@@ -8,7 +8,7 @@
 
     function authService($http, $window, $log) {
         var auth = {};
-        var service = {
+        return {
             saveToken: saveToken,
             getToken: getToken,
             isLoggedIn: isLoggedIn,
@@ -17,12 +17,10 @@
             logIn: logIn,
             logOut: logOut
         };
-        return service;
-
 
         function saveToken(token) {
             $window.localStorage['followfitness-app-token'] = token;
-        };
+        }
 
         function getToken() {
             return $window.localStorage['followfitness-app-token'];

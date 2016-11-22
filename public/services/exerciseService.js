@@ -8,14 +8,13 @@
     function exerciseService($log, $http, authService) {
 
         var trainingId;
-        var service = {
+        return {
             getAll: getAll,
             create: create,
             setTrainingId: setTrainingId
             // get: get,
             // update: update,
         };
-        return service;
 
         activate();
 
