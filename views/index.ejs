@@ -10,38 +10,32 @@
 </head>
 
 <body ng-app="followFitnessApp">
-<nav class="navbar navbar-default navbar-static-top" ng-controller="NavController as ctrl">
+<nav class="navbar navbar-default navbar-static-top" role="navigation" ng-controller="NavController as ctrl">
     <div class="container">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#/trainings">FollowFitness</a>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <p ng-show="ctrl.isLoggedIn()" class="navbar-text navbar-right">
-                Signed in as {{ctrl.currentUser()}}
-            </p>
-            <ul class="nav navbar-nav">
-                <ul class="nav navbar-nav">
-                    <li ng-show="ctrl.isLoggedIn()"><a href="" ng-click="ctrl.logOut()">Log Out</a></li>
-                    <li ng-hide="ctrl.isLoggedIn()"><a href="#/login">Log In</a></li>
-                    <li ng-hide="ctrl.isLoggedIn()"><a href="#/register">Register</a></li>
-                    <li ng-show="ctrl.isLoggedIn()"><a href="#/trainings">Trainings</a></li>
-                    <li ng-show="ctrl.isLoggedIn()"><a href="#/newtraining">Add training</a></li>
-                </ul>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" ng-click="isNavCollapsed = !isNavCollapsed">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#/trainings">FollowFitness</a>
     </div>
-    <!-- /.container-fluid -->
+    <div class="collapse navbar-collapse" uib-collapse="isNavCollapsed">
+        <p ng-show="ctrl.isLoggedIn()" class="navbar-text navbar-right">
+            Signed in as {{ctrl.currentUser()}}
+        </p>
+        <ul class="nav navbar-nav">
+            <li ng-show="ctrl.isLoggedIn()">
+                <button class="btn navbar-btn " ng-click="ctrl.logOut()">Log Out</button>
+            </li>
+            <li ng-hide="ctrl.isLoggedIn()"><a href="#/login">Log In</a></li>
+            <li ng-hide="ctrl.isLoggedIn()"><a href="#/register">Register</a></li>
+            <li ng-show="ctrl.isLoggedIn()"><a href="#/trainings">Trainings</a></li>
+            <li ng-show="ctrl.isLoggedIn()"><a href="#/newtraining">Add training</a></li>
+        </ul>
+    </div>
+    </div>
 </nav>
 <div class="row">
     <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
@@ -54,7 +48,8 @@
         <uib-accordion>
             <div uib-accordion-group class="panel-default" ng-repeat="training in ctrl.trainings">
                 <uib-accordion-heading>
-                    {{training.name}} on {{training.date | date:'dd-MM-yyyy'}}  <i class="pull-right glyphicon glyphicon-chevron-down"></i>
+                    {{training.name}} on {{training.date | date:'dd-MM-yyyy'}} <i
+                            class="pull-right glyphicon glyphicon-chevron-down"></i>
                 </uib-accordion-heading>
                 {{training.description}}
                 <uib-accordion>
@@ -65,12 +60,12 @@
                         </uib-accordion-heading>
                         Machine : {{exercise.machine}}
                         <ul class="list-unstyled">
-                            <li ng-repeat="set in exercise.sets" >
+                            <li ng-repeat="set in exercise.sets">
                                 Weight : {{set.weight}} - Repeat : {{set.repeat}}
                             </li>
                         </ul>
                         <div class="pull-right">
-                            <!--<p>TODO</p>-->
+                            <a href="#/{{training._id}}/edit/{{exercise._id}}">Edit exercise</a>
                         </div>
                     </div>
                 </uib-accordion>
@@ -79,26 +74,29 @@
                 <!--<i class="glyphicon glyphicon-ok" ng-click="ctrl.setCompleted(training)"></i>-->
 
                 <div class="pull-right">
-                    <a href="#/{{training._id}}/newexercise">Add exercise</a>
-                    <a href="#/{{training._id}}/edit">Edit Training</a>
+                    <a href="#/{{training._id}}/newexercise">Add exercise</a> |
+                    <a href="#/{{training._id}}/edittraining">Edit Training</a>
                 </div>
             </div>
             <div uib-accordion-group class="panel-default">
                 <uib-accordion-heading>
-                    Add a new training
+                    <span class="glyphicon glyphicon-plus"></span> Add a new training
                 </uib-accordion-heading>
                 <form ng-submit="ctrl.addTraining()" class="css-form" validate>
                     <div class="form-group">
                         <label>Name</label>
-                        <input type="text" class="form-control" placeholder="Name" ng-model="ctrl.training.name" required></input>
+                        <input type="text" class="form-control" placeholder="Name" ng-model="ctrl.training.name"
+                               required></input>
                     </div>
                     <div class="form-group">
                         <label>Description</label>
-                        <input type="text" class="form-control" placeholder="Description"  ng-model="ctrl.training.description" required></input>
+                        <input type="text" class="form-control" placeholder="Description"
+                               ng-model="ctrl.training.description" required></input>
                     </div>
                     <div class="form-group">
                         <label>Date</label>
-                        <input type="date" class="form-control" placeholder="Date" ng-model="ctrl.training.date" required></input>
+                        <input type="date" class="form-control" placeholder="Date" ng-model="ctrl.training.date"
+                               required></input>
                     </div>
                     <button class="btn btn-success" type="submit">Add training</button>
                 </form>
@@ -146,7 +144,8 @@
         </div>
         <div class="form-group">
             <label>Description</label>
-            <input type="text" class="form-control" placeholder="Description"  ng-model="ctrl.training.description" required></input>
+            <input type="text" class="form-control" placeholder="Description" ng-model="ctrl.training.description"
+                   required></input>
         </div>
         <div class="form-group">
             <label>Date</label>
@@ -155,28 +154,54 @@
         <button class="btn btn-success" type="submit">Add training</button>
     </form>
 </script>
+<script type="text/ng-template" id="/edittraining.html">
+    <div class="page-header">
+        <h2>Edit training</h2>
+    </div>
+    <form ng-submit="ctrl.editTraining()" class="css-form" ng-init="ctrl.getTraining()" validate>
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" class="form-control" placeholder="Name" ng-model="ctrl.training.name" required></input>
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <input type="text" class="form-control" placeholder="Description" ng-model="ctrl.training.description"
+                   required></input>
+        </div>
+        <div class="form-group">
+            <label>Date</label>
+            <input type="date" class="form-control" placeholder="Date" ng-model="ctrl.training.date" required></input>
+        </div>
+        <button class="btn btn-success" type="submit">Edit training</button>
+    </form>
+</script>
 <script type="text/ng-template" id="/newexercise.html">
     <div class="page-header">
         <h2>Add new exercise</h2>
         <form ng-submit="ctrl.addExercise()" class="css-form" validate>
             <div class="form-group">
                 <label>Name</label>
-                <input type="text" class="form-control" placeholder="Name" ng-model="ctrl.exercise.name" required></input>
+                <input type="text" class="form-control" placeholder="Name" ng-model="ctrl.exercise.name"
+                       required></input>
             </div>
             <div class="form-group">
                 <label>Machine</label>
-                <input type="text" class="form-control" placeholder="Description"  ng-model="ctrl.exercise.machine" required></input>
+                <input type="text" class="form-control" placeholder="Machine" ng-model="ctrl.exercise.machine"
+                       required></input>
             </div>
             <div class="form-group">
                 <label>Sets</label>
-                <input type="number" class="form-control" min="1" ng-model="ctrl.numberOfSets" required></input>
+                <input type="number" class="form-control" min="1" placeholder="Number of sets" ng-model="ctrl.numberOfSets" required></input>
             </div>
             <div class="form-group">
-                <label>Weights ands repeats</label>
+                <label>Weights and repeats</label>
                 <div ng-repeat="n in [].constructor(ctrl.numberOfSets) track by $index">
                     <p>Set {{$index + 1}}</p>
-                <input type="number" class="form-control" placeholder="Weight"  ng-model="ctrl.exercise.sets[$index].weight" required></input>
-                <input type="number" class="form-control" placeholder="Number of repeats"  ng-model="ctrl.exercise.sets[$index].repeat" required></input>
+                    <input type="number" class="form-control" placeholder="Weight"
+                           ng-model="ctrl.exercise.sets[$index].weight" required min="1"></input>
+                    <br>
+                    <input type="number" class="form-control" placeholder="Number of repeats"
+                           ng-model="ctrl.exercise.sets[$index].repeat" required min="1"></input>
                 </div>
             </div>
             <button class="btn btn-success" type="submit">Add exercise</button>
@@ -194,10 +219,10 @@
 
                 Machine : {{exercise.machine}}
                 <ul class="list-unstyled">
-                    <li ng-repeat="set in exercise.sets" >
+                    <li ng-repeat="set in exercise.sets">
                         Weight : {{set.weight}} , Repeat : {{set.repeat}}
                     </li>
-                    </ul>
+                </ul>
                 <div class="pull-right">
                     <p>TODO</p>
                 </div>
@@ -205,14 +230,44 @@
         </uib-accordion>
     </div>
 </script>
-
-</body>
+<script type="text/ng-template" id="/editexercise.html">
+    <div class="page-header">
+        <h2>Edit exercise</h2>
+        <form ng-submit="ctrl.updateExercise()" class="css-form" ng-init="ctrl.getExercise()" validate>
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" class="form-control" placeholder="Name" ng-model="ctrl.exercise.name"
+                       required></input>
+            </div>
+            <div class="form-group">
+                <label>Machine</label>
+                <input type="text" class="form-control" placeholder="Machine" ng-model="ctrl.exercise.machine"
+                       required></input>
+            </div>
+            <div class="form-group">
+                <label>Sets</label>
+                <input type="number" class="form-control" min="1" placeholder="Number of sets" ng-model="ctrl.numberOfSets" required></input>
+            </div>
+            <div class="form-group">
+                <label>Weights and repeats</label>
+                <div ng-repeat="n in [].constructor(ctrl.numberOfSets) track by $index">
+                    <p>Set {{$index + 1}}</p>
+                    <input type="number" class="form-control" placeholder="Weight"
+                           ng-model="ctrl.exercise.sets[$index].weight" required min="1"></input>
+                    <br>
+                    <input type="number" class="form-control" placeholder="Number of repeats"
+                           ng-model="ctrl.exercise.sets[$index].repeat" required min="1"></input>
+                </div>
+            </div>
+            <button class="btn btn-success" type="submit">Add exercise</button>
+        </form>
+    </div>
+</script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-touch.js"></script>
 <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.3.3.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
-
 <script src="/javascripts/followFitnessApp.module.js"></script>
 <script src="/javascripts/angularApp.js"></script>
 <script src="/controllers/ExerciseController.js"></script>
@@ -222,4 +277,6 @@
 <script src="/services/authService.js"></script>
 <script src="/services/trainingService.js"></script>
 <script src="/services/exerciseService.js"></script>
+</body>
+
 </html>

@@ -9,13 +9,13 @@
         var vm = this;
         vm.isLoggedIn = authService.isLoggedIn;
         vm.currentUser = authService.currentUser;
-        vm.logOut = authService.logOut;
+        vm.logOut = logOut;
 
-        // function logOut() {
-        //
-        //         $state.go('register').then(function(){authService.logOut()});
-        //
-        // }
+        function logOut() {
+
+                $state.go('register').then(function(){authService.logOut()});
+
+        }
     }
 
 })();

@@ -56,8 +56,8 @@
     });
 
     //TODO: Param for username
-    router.param('username', function (req, res, next, username) {
-        var query = User.findOne({username: username});
+    router.param('username', function (req, res, next, id) {
+        var query = User.findById(id);
 
         query.exec(function (err, user) {
             if (err) {
@@ -106,9 +106,10 @@
         });
     });
 
+
+
     router.param('training', function (req, res, next, id) {
         var query = Training.findById(id);
-
         query.exec(function (err, training) {
             if (err) {
                 return next(err);
@@ -116,7 +117,6 @@
             if (!training) {
                 return next(new Error('can\'t find training'));
             }
-
             req.training = training;
             return next();
         });
@@ -139,6 +139,10 @@
         });
     });
     router.get('/api/:username/trainings/:training', function (req, res, next) {
+        res.json(req.training);
+    });
+
+    router.get('/api/:username/trainings/:training/exercises', function (req, res, next) {
 
         Exercise.find({
             training: req.training._id
@@ -152,6 +156,22 @@
 
     });
 
+    router.put('/api/:username/trainings/:training', function(res,req){
+        next();
+        Training.findById(req.training._id, function(err, training) {
+            if (err) {
+                res.send(err);
+            }
+            training.name = req.body.name;
+            training.save(function(err) {
+                if (err) {
+                    res.send(err);
+                }
+                res.json(training);
+            });
+
+        });
+    });
 
     module.exports = router;
 })();

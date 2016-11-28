@@ -29,7 +29,24 @@
                 controller: 'TrainingController',
                 controllerAs : 'ctrl'
                 }
+            ).state('edittraining', {
+                    url: '/{id}/edittraining',
+                    templateUrl: '/edittraining.html',
+                    controller: 'TrainingController',
+                    controllerAs : 'ctrl'
+                }
             ).state('newexercise', {
+                url: '/{id}/newexercise',
+                templateUrl: '/newexercise.html',
+                controller: 'ExerciseController',
+                controllerAs: 'ctrl'
+                ,
+                resolve: {
+                    exercises: ['$stateParams', 'exerciseService', function ($stateParams, exerciseService) {
+                        return exerciseService.setTrainingId($stateParams.id);
+                    }]
+                }}
+            ).state('editexercise', {
                 url: '/{id}/newexercise',
                 templateUrl: '/newexercise.html',
                 controller: 'ExerciseController',

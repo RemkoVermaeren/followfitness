@@ -13,13 +13,25 @@
         vm.training;
         vm.getTrainings = getTrainings;
         vm.addTraining = addTraining;
-
-
+        vm.getTraining = getTraining;
+        vm.editTraining = editTraining;
+        vm.convertDate = convertDate;
         activate();
 
 
         function activate() {
             return getTrainings()
+        }
+
+        function getTraining(){
+            return trainingService.get($stateParams.id).then(function(data){
+                vm.training = data.data;
+                convertDate();
+            });
+        }
+
+        function editTraining(){
+            return trainingService.editTraining($stateParams.id,vm.training);
         }
 
         function getTrainings() {
@@ -36,6 +48,10 @@
                  vm.trainings.push(data.data);
              }).then(getTrainings());
          }
+        function convertDate(){
+            var date = vm.training.date;
+            vm.training.date = new Date(date);
+        }
     }
 
 

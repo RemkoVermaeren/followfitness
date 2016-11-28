@@ -22,18 +22,15 @@
             return getAll();
         }
         function getAll() {
-            var user = authService.currentUser();
+            var user = authService.currentUserId();
             return $http.get('/api/' +  user + "/trainings/" + trainingId).success(function(data) {
                 return data.data;
             });
         }
 
         function create(exercise){
-            var user = authService.currentUser();
-            $log.log(exercise);
+            var user = authService.currentUserId();
             exercise.sets = Object.keys(exercise.sets).map(function (key) { return exercise.sets[key];});
-            // exercise.repeats = Object.keys(exercise.weights).map(function (key) { return exercise.repeats[key];});
-
             return $http.post('/api/' + user + '/trainings/' + trainingId, exercise).success(function(data) {
                 return data;
             });
