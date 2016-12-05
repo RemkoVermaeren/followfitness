@@ -42,15 +42,12 @@
         }
 
         function logOut() {
-            return authService.logOut();
+            return authService.logOut().then(function(){$state.go("login")});
 
         }
 
         function currentUser() {
-            var data = authService.currentUser();
             vm.user = authService.currentUser();
-            $log.log(currentUser);
-            $log.log("Currentuser: " + vm.user.username);
             return vm.user.username;
         }
     }

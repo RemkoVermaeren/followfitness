@@ -8,13 +8,15 @@
 
     function ExerciseController($log, exerciseService, authService, $state, $stateParams) {
         var vm = this;
-        var numberOfSets = 1;
+        vm.numberOfSets = 1
         //vm.isLoggedIn = authService.isLoggedIn;
         vm.exercises = [];
         vm.exercise;
         vm.getExercises = getExercises;
+        vm.getExercise = getExercise;
         vm.addExercise = addExercise;
-
+        vm.deleteExercise = deleteExercise;
+        vm.editExercise = editExercise;
 
         activate();
 
@@ -35,6 +37,19 @@
             return exerciseService.create(vm.exercise).then(function(data){
                 vm.exercises.push(data.data);
             }).then($state.go('trainings'));
+        }
+        function getExercise() {
+            return exerciseService.get($stateParams.exerciseid).then(function(data){
+                vm.exercise = data.data;
+                vm.numberOfSets = vm.exercise.sets.length;
+            });
+        }
+        function deleteExercise() {
+            return exerciseService.deleteExercise($stateParams.exerciseid);
+        }
+
+        function editExercise(){
+            return exerciseService.editExercise(vm.exercise);
         }
     }
 

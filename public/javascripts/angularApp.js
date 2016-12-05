@@ -47,14 +47,14 @@
                     }]
                 }}
             ).state('editexercise', {
-                url: '/{id}/newexercise',
-                templateUrl: '/newexercise.html',
+                url: '/{trainingid}/editexercise/{exerciseid}',
+                templateUrl: '/editexercise.html',
                 controller: 'ExerciseController',
                 controllerAs: 'ctrl'
                 ,
                 resolve: {
                     exercises: ['$stateParams', 'exerciseService', function ($stateParams, exerciseService) {
-                        return exerciseService.setTrainingId($stateParams.id);
+                        return exerciseService.setTrainingId($stateParams.trainingid);
                     }]
                 }}
             ).state('exercises', {
@@ -81,7 +81,7 @@
             controllerAs: 'ctrl'
 
         });
-        $urlRouterProvider.otherwise('register');
+        $urlRouterProvider.otherwise('login');
     }
 
 })();

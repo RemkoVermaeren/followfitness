@@ -11,7 +11,8 @@
             getAll: getAll,
             create: create,
             get: get,
-            editTraining: editTraining
+            editTraining: editTraining,
+            deleteTraining: deleteTraining
         };
 
         function getAll() {
@@ -44,6 +45,13 @@
             $log.log(training);
             $log.log(id);
             return $http.put('/api/' + user + '/trainings/'+ id ,training).success(function(data){
+                return data;
+            })
+        }
+
+        function deleteTraining(id){
+            var user = authService.currentUserId();
+            return $http.delete('/api/' + user + '/trainings/'+ id).success(function(data){
                 return data;
             })
         }

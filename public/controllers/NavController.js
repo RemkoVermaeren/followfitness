@@ -10,12 +10,8 @@
         vm.isLoggedIn = authService.isLoggedIn;
         vm.currentUser = authService.currentUser;
         vm.logOut = logOut;
-
         function logOut() {
-
                 $state.go('register').then(function(){authService.logOut()});
-
         }
     }
-
 })();

@@ -9,11 +9,12 @@
 
         var trainingId;
         return {
+            get: get,
             getAll: getAll,
             create: create,
-            setTrainingId: setTrainingId
-            // get: get,
-            // update: update,
+            setTrainingId: setTrainingId,
+            editExercise: editExercise,
+            deleteExercise: deleteExercise
         };
 
         activate();
@@ -21,6 +22,13 @@
         function activate(){
             return getAll();
         }
+        function get(exerciseid){
+            var user = authService.currentUserId();
+            return $http.get('/api/' +  user + "/trainings/" + trainingId + '/exercises/' + exerciseid).success(function(data) {
+                return data.data;
+            });
+        }
+
         function getAll() {
             var user = authService.currentUserId();
             return $http.get('/api/' +  user + "/trainings/" + trainingId).success(function(data) {
@@ -38,6 +46,14 @@
         function setTrainingId(id){
             trainingId = id;
             $log.log("Training id is set to :" + id);
+        }
+        function editExercise(exercise) {
+            var user = authService.currentUserId();
+            return $http.put('/api/' + user + '/trainings/' + trainingId + '/exercises/' + exercise._id, exercise)
+        }
+        function deleteExercise(exerciseid){
+            var user = authService.currentUserId();
+            return $http.delete('/api/' + user + '/trainings/' + trainingId + '/exercises/' + exerciseid);
         }
     }
 

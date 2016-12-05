@@ -55,7 +55,6 @@
         })(req, res, next);
     });
 
-    //TODO: Param for username
     router.param('username', function (req, res, next, id) {
         var query = User.findById(id);
 
@@ -107,7 +106,6 @@
     });
 
 
-
     router.param('training', function (req, res, next, id) {
         var query = Training.findById(id);
         query.exec(function (err, training) {
@@ -138,7 +136,7 @@
             });
         });
     });
-    router.get('/api/:username/trainings/:training', function (req, res, next) {
+    router.get('/api/:username/trainings/:training', function (req, res) {
         res.json(req.training);
     });
 
@@ -156,21 +154,74 @@
 
     });
 
-    router.put('/api/:username/trainings/:training', function(res,req){
-        next();
-        Training.findById(req.training._id, function(err, training) {
+    router.put('/api/:username/trainings/:training', function (req, res) {
+        console.log(req.user);
+        var training = req.training;
+        training.name = req.body.name;
+        training.description = req.body.description;
+        training.date = req.body.date;
+        training.save(function (err) {
             if (err) {
                 res.send(err);
             }
-            training.name = req.body.name;
-            training.save(function(err) {
-                if (err) {
-                    res.send(err);
-                }
-                res.json(training);
-            });
-
+            res.json(training);
         });
+
+    });
+    router.delete('/api/:username/trainings/:training', function (req, res) {
+        var training = req.training;
+        training.remove(function (err) {
+            if (err) {
+                res.send(err);
+            }
+            res.json({
+                message: 'Training deleted'
+            });
+        });
+    });
+    router.param('exercise', function (req, res, next, id) {
+        var query = Exercise.findById(id);
+        query.exec(function (err, exercise) {
+            if (err) {
+                return next(err);
+            }
+            if (!exercise) {
+                return next(new Error('can\'t find exercise'));
+            }
+            req.exercise = exercise;
+            return next();
+        });
+    });
+
+    router.get('/api/:username/trainings/:training/exercises/:exercise',function(req,res){
+        res.json(req.exercise);
+    });
+    router.put('/api/:username/trainings/:training/exercises/:exercise', function (req, res) {
+        var exercise = req.exercise;
+        exercise.name = req.body.name;
+        exercise.machine = req.body.machine;
+        exercise.sets = req.body.sets;
+        exercise.save(function (err) {
+            if (err) {
+                res.send(err);
+            }
+            res.json(exercise);
+        });
+
+    });
+    router.delete('/api/:username/trainings/:training/exercises/:exercise', function (req, res) {
+        var exercise = req.exercise;
+        exercise.remove(function (err) {
+            if (err) {
+                res.send(err);
+            }
+            res.json({
+                message: 'Exercise deleted'
+            });
+        });
+    });
+    router.get('/api/:username/trainings/:training/exercises/:exercise', function (req, res) {
+        res.json(req.exercise);
     });
 
     module.exports = router;

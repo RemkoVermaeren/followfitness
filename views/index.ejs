@@ -6,6 +6,7 @@
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <!--<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">-->
     <link href="/stylesheets/style.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
 
 </head>
 
@@ -26,9 +27,7 @@
             Signed in as {{ctrl.currentUser()}}
         </p>
         <ul class="nav navbar-nav">
-            <li ng-show="ctrl.isLoggedIn()">
-                <button class="btn navbar-btn " ng-click="ctrl.logOut()">Log Out</button>
-            </li>
+            <li ng-show="ctrl.isLoggedIn()"><a href="#" ng-click="ctrl.logOut()">Log Out</a></li>
             <li ng-hide="ctrl.isLoggedIn()"><a href="#/login">Log In</a></li>
             <li ng-hide="ctrl.isLoggedIn()"><a href="#/register">Register</a></li>
             <li ng-show="ctrl.isLoggedIn()"><a href="#/trainings">Trainings</a></li>
@@ -65,7 +64,7 @@
                             </li>
                         </ul>
                         <div class="pull-right">
-                            <a href="#/{{training._id}}/edit/{{exercise._id}}">Edit exercise</a>
+                            <a href="#/{{training._id}}/editexercise/{{exercise._id}}">Edit exercise</a>
                         </div>
                     </div>
                 </uib-accordion>
@@ -132,7 +131,6 @@
         </form>
     </div>
 </script>
-
 <script type="text/ng-template" id="/newtraining.html">
     <div class="page-header">
         <h2>Add new training</h2>
@@ -174,6 +172,9 @@
         </div>
         <button class="btn btn-success" type="submit">Edit training</button>
     </form>
+    <hr>
+    <button class="btn btn-danger" type="button" ng-click="ctrl.deleteTraining()">Delete training</button>
+
 </script>
 <script type="text/ng-template" id="/newexercise.html">
     <div class="page-header">
@@ -216,7 +217,6 @@
                 <uib-accordion-heading>
                     {{exercise.name}} <i class="pull-right glyphicon glyphicon-chevron-down"></i>
                 </uib-accordion-heading>
-
                 Machine : {{exercise.machine}}
                 <ul class="list-unstyled">
                     <li ng-repeat="set in exercise.sets">
@@ -233,6 +233,7 @@
 <script type="text/ng-template" id="/editexercise.html">
     <div class="page-header">
         <h2>Edit exercise</h2>
+    </div>
         <form ng-submit="ctrl.updateExercise()" class="css-form" ng-init="ctrl.getExercise()" validate>
             <div class="form-group">
                 <label>Name</label>
@@ -261,8 +262,10 @@
             </div>
             <button class="btn btn-success" type="submit">Add exercise</button>
         </form>
-    </div>
+        <hr>
+        <button class="btn btn-danger" type="submit" ng-click="ctrl.deleteExercise()">Add exercise</button>
 </script>
+
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-touch.js"></script>

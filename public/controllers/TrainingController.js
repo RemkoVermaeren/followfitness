@@ -15,6 +15,7 @@
         vm.addTraining = addTraining;
         vm.getTraining = getTraining;
         vm.editTraining = editTraining;
+        vm.deleteTraining = deleteTraining;
         vm.convertDate = convertDate;
         activate();
 
@@ -31,9 +32,12 @@
         }
 
         function editTraining(){
-            return trainingService.editTraining($stateParams.id,vm.training);
+            return trainingService.editTraining($stateParams.id, vm.training);
         }
 
+        function deleteTraining(){
+            return trainingService.deleteTraining($stateParams.id).then($state.go('trainings'));
+        }
         function getTrainings() {
             return trainingService.getAll()
                 .then(function(data) {
@@ -41,13 +45,15 @@
                     return vm.trainings;
                 });
          }
+
         //TODO: push(data.data) instead of getTrainings()
          function addTraining() {
              return trainingService.create(vm.training).then(function(data){
                  $log.log(data.data);
                  vm.trainings.push(data.data);
-             }).then(getTrainings());
+             }).then(function(){getTrainings()});
          }
+
         function convertDate(){
             var date = vm.training.date;
             vm.training.date = new Date(date);
