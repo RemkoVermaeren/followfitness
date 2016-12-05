@@ -12,7 +12,8 @@
             create: create,
             get: get,
             editTraining: editTraining,
-            deleteTraining: deleteTraining
+            deleteTraining: deleteTraining,
+            reverseIsCompleted: reverseIsCompleted
         };
 
         function getAll() {
@@ -53,6 +54,12 @@
             var user = authService.currentUserId();
             return $http.delete('/api/' + user + '/trainings/'+ id).success(function(data){
                 return data;
+            })
+        }
+        function reverseIsCompleted(training){
+            var user = authService.currentUserId();
+            return $http.put('/api/' + user + '/trainings/'+ training._id + '/reverseiscompleted' ,null).success(function(data){
+                training.isCompleted = !training.isCompleted;
             })
         }
     }

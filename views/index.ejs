@@ -69,8 +69,8 @@
                     </div>
                 </uib-accordion>
 
-                <!--{{training.isCompleted}}-->
-                <!--<i class="glyphicon glyphicon-ok" ng-click="ctrl.setCompleted(training)"></i>-->
+                {{training.isCompleted}}
+                <i class="glyphicon glyphicon-ok" ng-click="ctrl.reverseIsCompleted(training)"></i>
 
                 <div class="pull-right">
                     <a href="#/{{training._id}}/newexercise">Add exercise</a> |

@@ -15,8 +15,8 @@ var TrainingSchema = new mongoose.Schema({
     isCompleted : {type : Boolean, default: false}
 });
 
-TrainingSchema.methods.setCompleted = function (tr){
-    this.isCompleted = true;
+TrainingSchema.methods.reverseIsCompleted = function (tr){
+    this.isCompleted = !this.isCompleted;
     this.save(tr);
 };
 

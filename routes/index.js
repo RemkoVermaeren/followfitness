@@ -224,5 +224,12 @@
         res.json(req.exercise);
     });
 
+    router.put('/api/:username/trainings/:training/reverseiscompleted', function(req,res){
+        req.training.reverseIsCompleted(function(err, training){
+            if (err) { return next(err); }
+            res.json(training);
+        });
+    });
+
     module.exports = router;
 })();

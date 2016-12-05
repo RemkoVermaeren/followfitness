@@ -17,6 +17,7 @@
         vm.editTraining = editTraining;
         vm.deleteTraining = deleteTraining;
         vm.convertDate = convertDate;
+        vm.reverseIsCompleted = reverseIsCompleted;
         activate();
 
 
@@ -52,6 +53,11 @@
                  $log.log(data.data);
                  vm.trainings.push(data.data);
              }).then(function(){getTrainings()});
+         }
+
+         function reverseIsCompleted(training) {
+            $log.log("Reverse on :" + training);
+            return trainingService.reverseIsCompleted(training);
          }
 
         function convertDate(){
