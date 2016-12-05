@@ -47,9 +47,11 @@
             trainingId = id;
             $log.log("Training id is set to :" + id);
         }
-        function editExercise(exercise) {
+        function editExercise(id,exercise,numberOfSets) {
             var user = authService.currentUserId();
-            return $http.put('/api/' + user + '/trainings/' + trainingId + '/exercises/' + exercise._id, exercise)
+            exercise.sets = Object.keys(exercise.sets).map(function (key) { return exercise.sets[key];});
+            exercise.sets = exercise.sets.slice(0,numberOfSets);
+            return $http.put('/api/' + user + '/trainings/' + trainingId + '/exercises/' + id, exercise)
         }
         function deleteExercise(exerciseid){
             var user = authService.currentUserId();

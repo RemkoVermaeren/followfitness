@@ -8,8 +8,7 @@
 
     function ExerciseController($log, exerciseService, authService, $state, $stateParams) {
         var vm = this;
-        vm.numberOfSets = 1
-        //vm.isLoggedIn = authService.isLoggedIn;
+        vm.numberOfSets = 1;
         vm.exercises = [];
         vm.exercise;
         vm.getExercises = getExercises;
@@ -49,7 +48,8 @@
         }
 
         function editExercise(){
-            return exerciseService.editExercise(vm.exercise);
+            $log.log(vm.exercise);
+            return exerciseService.editExercise($stateParams.exerciseid, vm.exercise,vm.numberOfSets);
         }
     }
 

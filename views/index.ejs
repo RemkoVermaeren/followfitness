@@ -234,7 +234,7 @@
     <div class="page-header">
         <h2>Edit exercise</h2>
     </div>
-        <form ng-submit="ctrl.updateExercise()" class="css-form" ng-init="ctrl.getExercise()" validate>
+        <form ng-submit="ctrl.editExercise()" class="css-form" ng-init="ctrl.getExercise()" validate>
             <div class="form-group">
                 <label>Name</label>
                 <input type="text" class="form-control" placeholder="Name" ng-model="ctrl.exercise.name"
@@ -260,10 +260,10 @@
                            ng-model="ctrl.exercise.sets[$index].repeat" required min="1"></input>
                 </div>
             </div>
-            <button class="btn btn-success" type="submit">Add exercise</button>
+            <button class="btn btn-success" type="submit">Edit</button>
         </form>
         <hr>
-        <button class="btn btn-danger" type="submit" ng-click="ctrl.deleteExercise()">Add exercise</button>
+        <button class="btn btn-danger" type="submit" ng-click="ctrl.deleteExercise()">Delete</button>
 </script>
 
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.js"></script>
