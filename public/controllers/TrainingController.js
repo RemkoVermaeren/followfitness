@@ -18,6 +18,8 @@
         vm.deleteTraining = deleteTraining;
         vm.convertDate = convertDate;
         vm.reverseIsCompleted = reverseIsCompleted;
+        vm.getCompletedTrainings = getCompletedTrainings;
+        vn.getUncompletedTrainings = getUncompletedTrainings;
         activate();
 
 
@@ -47,7 +49,22 @@
                 });
          }
 
-        //TODO: push(data.data) instead of getTrainings()
+         function getCompletedTrainings(){
+             return trainingService.getAllCompleted()
+                 .then(function(data) {
+                     vm.trainings = data.data;
+                     return vm.trainings;
+                 });
+         }
+
+         function getUncompletedTrainings(){
+             return trainingService.getAllUncompleted()
+                 .then(function(data) {
+                     vm.trainings = data.data;
+                     return vm.trainings;
+                 });
+         }
+
          function addTraining() {
              return trainingService.create(vm.training).then(function(data){
                  $log.log(data.data);

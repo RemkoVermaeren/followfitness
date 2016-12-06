@@ -105,6 +105,27 @@
         });
     });
 
+    router.get('/api/:username/trainingscompleted', function (req, res, next) {
+        Training.find({
+            user: req.user._id, isCompleted: true
+        }).populate('exercises').exec(function (err, trainings) {
+            if (err) {
+                return next(err);
+            }
+            res.json(trainings);
+        });
+    });
+
+    router.get('/api/:username/trainingsuncompleted', function (req, res, next) {
+        Training.find({
+            user: req.user._id, isCompleted: false
+        }).populate('exercises').exec(function (err, trainings) {
+            if (err) {
+                return next(err);
+            }
+            res.json(trainings);
+        });
+    });
 
     router.param('training', function (req, res, next, id) {
         var query = Training.findById(id);

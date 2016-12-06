@@ -31,6 +31,7 @@
             <li ng-hide="ctrl.isLoggedIn()"><a href="#/login">Log In</a></li>
             <li ng-hide="ctrl.isLoggedIn()"><a href="#/register">Register</a></li>
             <li ng-show="ctrl.isLoggedIn()"><a href="#/trainings">Trainings</a></li>
+            <li ng-show="ctrl.isLoggedIn()"><a href="#/history">History</a></li>
             <li ng-show="ctrl.isLoggedIn()"><a href="#/newtraining">Add training</a></li>
         </ul>
     </div>
@@ -264,6 +265,68 @@
         </form>
         <hr>
         <button class="btn btn-danger" type="submit" ng-click="ctrl.deleteExercise()">Delete</button>
+</script>
+<script type="text/ng-template" id="/history.html">
+    <div class="page-header">
+        <h2>History</h2>
+        <uib-accordion>
+            <div uib-accordion-group class="panel-default" ng-repeat="training in ctrl.trainings">
+                <uib-accordion-heading>
+                    {{training.name}} on {{training.date | date:'dd-MM-yyyy'}} <i
+                            class="pull-right glyphicon glyphicon-chevron-down"></i>
+                </uib-accordion-heading>
+                {{training.description}}
+                <uib-accordion>
+                    <h3>Exercises</h3>
+                    <div uib-accordion-group class="panel-default" ng-repeat="exercise in training.exercises">
+                        <uib-accordion-heading>
+                            {{exercise.name}} <i class="pull-right glyphicon glyphicon-chevron-down"></i>
+                        </uib-accordion-heading>
+                        Machine : {{exercise.machine}}
+                        <ul class="list-unstyled">
+                            <li ng-repeat="set in exercise.sets">
+                                Weight : {{set.weight}} - Repeat : {{set.repeat}}
+                            </li>
+                        </ul>
+                        <div class="pull-right">
+                            <a href="#/{{training._id}}/editexercise/{{exercise._id}}">Edit exercise</a>
+                        </div>
+                    </div>
+                </uib-accordion>
+
+                {{training.isCompleted}}
+                <i class="glyphicon glyphicon-ok" ng-click="ctrl.reverseIsCompleted(training)"></i>
+
+                <div class="pull-right">
+                    <a href="#/{{training._id}}/newexercise">Add exercise</a> |
+                    <a href="#/{{training._id}}/edittraining">Edit Training</a>
+                </div>
+            </div>
+            <div uib-accordion-group class="panel-default">
+                <uib-accordion-heading>
+                    <span class="glyphicon glyphicon-plus"></span> Add a new training
+                </uib-accordion-heading>
+                <form ng-submit="ctrl.addTraining()" class="css-form" validate>
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" class="form-control" placeholder="Name" ng-model="ctrl.training.name"
+                               required></input>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <input type="text" class="form-control" placeholder="Description"
+                               ng-model="ctrl.training.description" required></input>
+                    </div>
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="date" class="form-control" placeholder="Date" ng-model="ctrl.training.date"
+                               required></input>
+                    </div>
+                    <button class="btn btn-success" type="submit">Add training</button>
+                </form>
+            </div>
+        </uib-accordion>
+    </div>
 </script>
 
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.js"></script>

@@ -13,7 +13,9 @@
             get: get,
             editTraining: editTraining,
             deleteTraining: deleteTraining,
-            reverseIsCompleted: reverseIsCompleted
+            reverseIsCompleted: reverseIsCompleted,
+            getAllCompleted: getAllCompleted,
+            getAllUncompleted: getAllUncompleted
         };
 
         function getAll() {
@@ -61,6 +63,18 @@
             return $http.put('/api/' + user + '/trainings/'+ training._id + '/reverseiscompleted' ,null).success(function(data){
                 training.isCompleted = !training.isCompleted;
             })
+        }
+        function getAllCompleted(){
+            var user = authService.currentUserId();
+            return $http.get('/api/' +  user + '/trainingscompleted').success(function(data) {
+                return data.data;
+            });
+        }
+        function getAllUncompleted(){
+            var user = authService.currentUserId();
+            return $http.get('/api/' +  user + '/trainingsuncompleted').success(function(data) {
+                return data.data;
+            });
         }
     }
 
