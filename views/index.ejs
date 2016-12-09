@@ -31,7 +31,6 @@
             <li ng-hide="ctrl.isLoggedIn()"><a href="#/login">Log In</a></li>
             <li ng-hide="ctrl.isLoggedIn()"><a href="#/register">Register</a></li>
             <li ng-show="ctrl.isLoggedIn()"><a href="#/trainings">Trainings</a></li>
-            <li ng-show="ctrl.isLoggedIn()"><a href="#/history">History</a></li>
             <li ng-show="ctrl.isLoggedIn()"><a href="#/newtraining">Add training</a></li>
         </ul>
     </div>
@@ -69,10 +68,8 @@
                         </div>
                     </div>
                 </uib-accordion>
-
                 {{training.isCompleted}}
                 <i class="glyphicon glyphicon-ok" ng-click="ctrl.reverseIsCompleted(training)"></i>
-
                 <div class="pull-right">
                     <a href="#/{{training._id}}/newexercise">Add exercise</a> |
                     <a href="#/{{training._id}}/edittraining">Edit Training</a>
@@ -266,7 +263,7 @@
         <hr>
         <button class="btn btn-danger" type="submit" ng-click="ctrl.deleteExercise()">Delete</button>
 </script>
-<script type="text/ng-template" id="/history.html">
+<script type="text/ng-template" id="/history.html" ng-init="ctrl.getCompletedTrainings()">
     <div class="page-header">
         <h2>History</h2>
         <uib-accordion>

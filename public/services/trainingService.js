@@ -64,18 +64,18 @@
                 training.isCompleted = !training.isCompleted;
             })
         }
-        function getAllCompleted(){
-            var user = authService.currentUserId();
-            return $http.get('/api/' +  user + '/trainingscompleted').success(function(data) {
-                return data.data;
-            });
-        }
-        function getAllUncompleted(){
-            var user = authService.currentUserId();
-            return $http.get('/api/' +  user + '/trainingsuncompleted').success(function(data) {
-                return data.data;
-            });
-        }
+        // function getAllCompleted(){
+        //     var user = authService.currentUserId();
+        //     return $http.get('/api/' +  user + '/trainingscompleted').success(function(data) {
+        //         return data.data;
+        //     });
+        // }
+        // function getAllUncompleted(){
+        //     var user = authService.currentUserId();
+        //     return $http.get('/api/' +  user + '/trainingsuncompleted').success(function(data) {
+        //         return data.data;
+        //     });
+        // }
     }
 
 

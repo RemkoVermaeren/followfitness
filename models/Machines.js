@@ -1,7 +1,8 @@
 var mongoose = require('mongoose');
 
 var MachineSchema = new mongoose.Schema({
-    name: String
+    name: String,
+    source: String
 });
 
 

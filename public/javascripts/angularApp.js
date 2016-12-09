@@ -1,4 +1,4 @@
-(function() {
+(function () {
 
     'use strict';
 
@@ -8,34 +8,34 @@
 
     function followFitnessState($stateProvider, $urlRouterProvider) {
 
-            $stateProvider.state('trainings', {
-                url: '/trainings',
-                templateUrl: '/trainings.html',
-                controller : 'TrainingController',
-                controllerAs : 'ctrl',
-                onEnter: ['$state', 'authService', function($state, authService) {
-                    if (!authService.isLoggedIn()) {
-                        $state.go('register');
-                    }
-                }],
-                resolve: {
-                trainings: ['trainingService', function(trainingService) {
-                         return trainingService.getAll();
-                }]
+        $stateProvider.state('trainings', {
+            url: '/trainings',
+            templateUrl: '/trainings.html',
+            controller: 'TrainingController',
+            controllerAs: 'ctrl',
+            onEnter: ['$state', 'authService', function ($state, authService) {
+                if (!authService.isLoggedIn()) {
+                    $state.go('register');
                 }
-            }).state('newtraining', {
+            }],
+            resolve: {
+                trainings: ['trainingService', function (trainingService) {
+                    return trainingService.getAll();
+                }]
+            }
+        }).state('newtraining', {
                 url: '/newtraining',
                 templateUrl: '/newtraining.html',
                 controller: 'TrainingController',
-                controllerAs : 'ctrl'
-                }
-            ).state('edittraining', {
-                    url: '/{id}/edittraining',
-                    templateUrl: '/edittraining.html',
-                    controller: 'TrainingController',
-                    controllerAs : 'ctrl'
-                }
-            ).state('newexercise', {
+                controllerAs: 'ctrl'
+            }
+        ).state('edittraining', {
+                url: '/{id}/edittraining',
+                templateUrl: '/edittraining.html',
+                controller: 'TrainingController',
+                controllerAs: 'ctrl'
+            }
+        ).state('newexercise', {
                 url: '/{id}/newexercise',
                 templateUrl: '/newexercise.html',
                 controller: 'ExerciseController',
@@ -45,8 +45,9 @@
                     exercises: ['$stateParams', 'exerciseService', function ($stateParams, exerciseService) {
                         return exerciseService.setTrainingId($stateParams.id);
                     }]
-                }}
-            ).state('editexercise', {
+                }
+            }
+        ).state('editexercise', {
                 url: '/{trainingid}/editexercise/{exerciseid}',
                 templateUrl: '/editexercise.html',
                 controller: 'ExerciseController',
@@ -56,8 +57,9 @@
                     exercises: ['$stateParams', 'exerciseService', function ($stateParams, exerciseService) {
                         return exerciseService.setTrainingId($stateParams.trainingid);
                     }]
-                }}
-            ).state('exercises', {
+                }
+            }
+        ).state('exercises', {
                 url: '/{id}/exercises',
                 templateUrl: '/exercises.html',
                 controller: 'ExerciseController',
@@ -66,14 +68,13 @@
                     exercises: ['$stateParams', 'exerciseService', function ($stateParams, exerciseService) {
                         return exerciseService.setTrainingId($stateParams.id);
                     }]
-                }}
-            ).state('login', {
+                }
+            }
+        ).state('login', {
             url: '/login',
             templateUrl: '/login.html',
             controller: 'AuthController',
             controllerAs: 'ctrl'
-
-
         }).state('register', {
             url: '/register',
             templateUrl: '/register.html',

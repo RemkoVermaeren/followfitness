@@ -207,11 +207,25 @@
                 return next(err);
             }
             if (!exercise) {
-                return next(new Error('can\'t find exercise'));
+                return next(new Error('can\'t find the exercise'));
             }
             req.exercise = exercise;
             return next();
         });
+    });
+    router.get('/api/:username/machines')
+    router.param('machine', function (req,res,next,id){
+        var query = Machine.findById(id);
+        query.exec(function (err, machine){
+            if (err) {
+                return next(err);
+            }
+            if (!machine) {
+                return next(new Error('can\'t find the machine'));
+            }
+            req.machine = machine;
+            return next();
+        })
     });
 
     router.get('/api/:username/trainings/:training/exercises/:exercise',function(req,res){
