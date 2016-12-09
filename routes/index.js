@@ -105,27 +105,27 @@
         });
     });
 
-    router.get('/api/:username/trainingscompleted', function (req, res, next) {
-        Training.find({
-            user: req.user._id, isCompleted: true
-        }).populate('exercises').exec(function (err, trainings) {
-            if (err) {
-                return next(err);
-            }
-            res.json(trainings);
-        });
-    });
-
-    router.get('/api/:username/trainingsuncompleted', function (req, res, next) {
-        Training.find({
-            user: req.user._id, isCompleted: false
-        }).populate('exercises').exec(function (err, trainings) {
-            if (err) {
-                return next(err);
-            }
-            res.json(trainings);
-        });
-    });
+    // router.get('/api/:username/trainingscompleted', function (req, res, next) {
+    //     Training.find({
+    //         user: req.user._id, isCompleted: true
+    //     }).populate('exercises').exec(function (err, trainings) {
+    //         if (err) {
+    //             return next(err);
+    //         }
+    //         res.json(trainings);
+    //     });
+    // });
+    //
+    // router.get('/api/:username/trainingsuncompleted', function (req, res, next) {
+    //     Training.find({
+    //         user: req.user._id, isCompleted: false
+    //     }).populate('exercises').exec(function (err, trainings) {
+    //         if (err) {
+    //             return next(err);
+    //         }
+    //         res.json(trainings);
+    //     });
+    // });
 
     router.param('training', function (req, res, next, id) {
         var query = Training.findById(id);
@@ -213,10 +213,15 @@
             return next();
         });
     });
-    router.get('/api/:username/machines')
-    router.param('machine', function (req,res,next,id){
+    router.get('/api/:username/machines', function (req, res) {
+        res.json(req.user.machines);
+    });
+    router.get('/api/:username/machines/:machine', function (req, res) {
+        res.json(req.machine);
+    });
+    router.param('machine', function (req, res, next, id) {
         var query = Machine.findById(id);
-        query.exec(function (err, machine){
+        query.exec(function (err, machine) {
             if (err) {
                 return next(err);
             }
@@ -227,10 +232,27 @@
             return next();
         })
     });
+    router.post('/api/:username/machines', function (req, res, next) {
+        var machine = new Machine(req.body);
+        machine.user = req.user;
+        machine.save(function (err, machine) {
+            if (err) {
+                return next(err);
+            }
+            req.user.machines.push(machine);
+            req.user.save(function (err, machine) {
+                if (err) {
+                    return next(err);
+                }
+                res.json(machine);
+            });
+        });
+    });
 
-    router.get('/api/:username/trainings/:training/exercises/:exercise',function(req,res){
+    router.get('/api/:username/trainings/:training/exercises/:exercise', function (req, res) {
         res.json(req.exercise);
     });
+
     router.put('/api/:username/trainings/:training/exercises/:exercise', function (req, res) {
         var exercise = req.exercise;
         exercise.name = req.body.name;
@@ -259,9 +281,11 @@
         res.json(req.exercise);
     });
 
-    router.put('/api/:username/trainings/:training/reverseiscompleted', function(req,res){
-        req.training.reverseIsCompleted(function(err, training){
-            if (err) { return next(err); }
+    router.put('/api/:username/trainings/:training/reverseiscompleted', function (req, res) {
+        req.training.reverseIsCompleted(function (err, training) {
+            if (err) {
+                return next(err);
+            }
             res.json(training);
         });
     });

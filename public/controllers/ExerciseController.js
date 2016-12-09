@@ -11,6 +11,7 @@
         vm.numberOfSets = 1;
         vm.exercises = [];
         vm.exercise;
+        vm.machines = [];
         vm.getExercises = getExercises;
         vm.getExercise = getExercise;
         vm.addExercise = addExercise;

@@ -13,9 +13,9 @@
             get: get,
             editTraining: editTraining,
             deleteTraining: deleteTraining,
-            reverseIsCompleted: reverseIsCompleted,
-            getAllCompleted: getAllCompleted,
-            getAllUncompleted: getAllUncompleted
+            reverseIsCompleted: reverseIsCompleted
+   // reverseIsCompleted         getAllCompleted: getAllCompleted,
+   //          getAllUncompleted: getAllUncompleted
         };
 
         function getAll() {
