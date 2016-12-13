@@ -47,7 +47,7 @@
         <uib-accordion>
             <div uib-accordion-group class="panel-default" ng-repeat="training in ctrl.trainings">
                 <uib-accordion-heading>
-                    {{training.name}} on {{training.date | date:'dd-MM-yyyy'}} <i
+                    {{training.name}} on {{training.date | date:'dd-MM-yyyy'}} : {{ training.isCompleted ? 'Completed' : 'Uncompleted'}} <i
                             class="pull-right glyphicon glyphicon-chevron-down"></i>
                 </uib-accordion-heading>
                 {{training.description}}
@@ -68,8 +68,9 @@
                         </div>
                     </div>
                 </uib-accordion>
-                {{training.isCompleted}}
-                <i class="glyphicon glyphicon-ok" ng-click="ctrl.reverseIsCompleted(training)"></i>
+                <div class="pull-left" ng-show="training.isCompleted"> <i class="glyphicon glyphicon-ok" ng-click="ctrl.reverseIsCompleted(training)"></i> Set uncompleted</div>
+                <div class="pull-left" ng-show="!training.isCompleted"> <i class="glyphicon glyphicon-ok" ng-click="ctrl.reverseIsCompleted(training)"></i> Set completed</div>
+
                 <div class="pull-right">
                     <a href="#/{{training._id}}/newexercise">Add exercise</a> |
                     <a href="#/{{training._id}}/edittraining">Edit Training</a>
