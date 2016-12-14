@@ -13,10 +13,6 @@ var UserSchema = new mongoose.Schema({
     trainings : [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Training'
-    }],
-    machines : [{
-        type : mongoose.Schema.Types.ObjectId,
-        ref: 'Machine'
     }]
 });
 

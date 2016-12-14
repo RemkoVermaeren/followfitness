@@ -16,12 +16,10 @@
         function register() {
             $log.log(vm.user);
             authService.register(vm.user).error(function (error) {
-                $log.log("ERROR " + error);
                 vm.error = error;
                 vm.message = error.message;
             }).then(function () {
                $state.go('trainings');
-                $log.log(vm.user);
 
             });
         }
@@ -29,10 +27,8 @@
         function logIn() {
             authService.logIn(vm.user).error(function (error) {
                 vm.error = error;
-                $log.log(error);
                 vm.message = error.message;
             }).then(function () {
-                $log.log(vm.user);
                $state.go('trainings');
             });
         }

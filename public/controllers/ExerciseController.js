@@ -49,7 +49,6 @@
         }
 
         function editExercise(){
-            $log.log(vm.exercise);
             return exerciseService.editExercise($stateParams.exerciseid, vm.exercise,vm.numberOfSets);
         }
     }

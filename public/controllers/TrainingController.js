@@ -18,9 +18,6 @@
         vm.deleteTraining = deleteTraining;
         vm.convertDate = convertDate;
         vm.reverseIsCompleted = reverseIsCompleted;
-        // vm.getCompletedTrainings = getCompletedTrainings;
-        // vm.getUncompletedTrainings = getUncompletedTrainings;
-
         activate();
 
 
@@ -51,23 +48,6 @@
                 });
         }
 
-        // function getCompletedTrainings() {
-        //     console.log("test");
-        //     return trainingService.getAllCompleted()
-        //         .then(function (data) {
-        //             vm.trainings = data.data;
-        //             return vm.trainings;
-        //         });
-        // }
-
-        // function getUncompletedTrainings() {
-        //     return trainingService.getAllUncompleted()
-        //         .then(function (data) {
-        //             vm.trainings = data.data;
-        //             return vm.trainings;
-        //         });
-        // }
-
         function addTraining() {
             return trainingService.create(vm.training).then(function (data) {
                 $log.log(data.data);
@@ -78,7 +58,6 @@
         }
 
         function reverseIsCompleted(training) {
-            $log.log("Reverse on :" + training);
             return trainingService.reverseIsCompleted(training);
         }
 

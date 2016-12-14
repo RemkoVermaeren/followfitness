@@ -45,7 +45,6 @@
         }
         function setTrainingId(id){
             trainingId = id;
-            $log.log("Training id is set to :" + id);
         }
         function editExercise(id,exercise,numberOfSets) {
             var user = authService.currentUserId();

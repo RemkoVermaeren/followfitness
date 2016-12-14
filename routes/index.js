@@ -21,8 +21,7 @@
             title: 'Express'
         });
     });
-
-
+    //region Register/Login
     router.post('/register', function (req, res, next) {
         if (!req.body.username || !req.body.password) {
             return res.status(400).json({message: 'Please fill out all fields'});
@@ -38,7 +37,6 @@
             return res.json({token: user.generateJWT()})
         });
     });
-
     router.post('/login', function (req, res, next) {
         if (!req.body.username || !req.body.password) {
             return res.status(400).json({message: 'Please fill out all fields'});
@@ -54,7 +52,8 @@
             }
         })(req, res, next);
     });
-
+    //endregion
+    //region User
     router.param('username', function (req, res, next, id) {
         var query = User.findById(id);
 
@@ -70,12 +69,24 @@
             return next();
         });
     });
-
-    //Get a specific user
     router.get('/api/:username', function (req, res) {
         res.json(req.user);
     });
-
+    //endregion
+    //region Training
+    router.param('training', function (req, res, next, id) {
+        var query = Training.findById(id);
+        query.exec(function (err, training) {
+            if (err) {
+                return next(err);
+            }
+            if (!training) {
+                return next(new Error('can\'t find training'));
+            }
+            req.training = training;
+            return next();
+        });
+    });
     router.post('/api/:username/trainings', function (req, res, next) {
         var training = new Training(req.body);
 
@@ -93,7 +104,6 @@
             });
         });
     });
-
     router.get('/api/:username/trainings', function (req, res, next) {
         Training.find({
             user: req.user._id
@@ -104,43 +114,6 @@
             res.json(trainings);
         });
     });
-
-    // router.get('/api/:username/trainingscompleted', function (req, res, next) {
-    //     Training.find({
-    //         user: req.user._id, isCompleted: true
-    //     }).populate('exercises').exec(function (err, trainings) {
-    //         if (err) {
-    //             return next(err);
-    //         }
-    //         res.json(trainings);
-    //     });
-    // });
-    //
-    // router.get('/api/:username/trainingsuncompleted', function (req, res, next) {
-    //     Training.find({
-    //         user: req.user._id, isCompleted: false
-    //     }).populate('exercises').exec(function (err, trainings) {
-    //         if (err) {
-    //             return next(err);
-    //         }
-    //         res.json(trainings);
-    //     });
-    // });
-
-    router.param('training', function (req, res, next, id) {
-        var query = Training.findById(id);
-        query.exec(function (err, training) {
-            if (err) {
-                return next(err);
-            }
-            if (!training) {
-                return next(new Error('can\'t find training'));
-            }
-            req.training = training;
-            return next();
-        });
-    });
-
     router.post('/api/:username/trainings/:training', function (req, res, next) {
         var exercise = new Exercise(req.body);
         exercise.training = req.training;
@@ -160,21 +133,6 @@
     router.get('/api/:username/trainings/:training', function (req, res) {
         res.json(req.training);
     });
-
-    router.get('/api/:username/trainings/:training/exercises', function (req, res, next) {
-
-        Exercise.find({
-            training: req.training._id
-        }, function (err, exercises) {
-            if (err) {
-                return next(err);
-            }
-
-            res.json(exercises);
-        });
-
-    });
-
     router.put('/api/:username/trainings/:training', function (req, res) {
         console.log(req.user);
         var training = req.training;
@@ -200,6 +158,16 @@
             });
         });
     });
+    router.put('/api/:username/trainings/:training/reverseiscompleted', function (req, res) {
+        req.training.reverseIsCompleted(function (err, training) {
+            if (err) {
+                return next(err);
+            }
+            res.json(training);
+        });
+    });
+    //endregion
+    //region Exercise
     router.param('exercise', function (req, res, next, id) {
         var query = Exercise.findById(id);
         query.exec(function (err, exercise) {
@@ -213,46 +181,22 @@
             return next();
         });
     });
-    router.get('/api/:username/machines', function (req, res) {
-        res.json(req.user.machines);
-    });
-    router.get('/api/:username/machines/:machine', function (req, res) {
-        res.json(req.machine);
-    });
-    router.param('machine', function (req, res, next, id) {
-        var query = Machine.findById(id);
-        query.exec(function (err, machine) {
-            if (err) {
-                return next(err);
-            }
-            if (!machine) {
-                return next(new Error('can\'t find the machine'));
-            }
-            req.machine = machine;
-            return next();
-        })
-    });
-    router.post('/api/:username/machines', function (req, res, next) {
-        var machine = new Machine(req.body);
-        machine.user = req.user;
-        machine.save(function (err, machine) {
-            if (err) {
-                return next(err);
-            }
-            req.user.machines.push(machine);
-            req.user.save(function (err, machine) {
-                if (err) {
-                    return next(err);
-                }
-                res.json(machine);
-            });
-        });
-    });
+    router.get('/api/:username/trainings/:training/exercises', function (req, res, next) {
 
+        Exercise.find({
+            training: req.training._id
+        }, function (err, exercises) {
+            if (err) {
+                return next(err);
+            }
+
+            res.json(exercises);
+        });
+
+    });
     router.get('/api/:username/trainings/:training/exercises/:exercise', function (req, res) {
         res.json(req.exercise);
     });
-
     router.put('/api/:username/trainings/:training/exercises/:exercise', function (req, res) {
         var exercise = req.exercise;
         exercise.name = req.body.name;
@@ -277,18 +221,43 @@
             });
         });
     });
-    router.get('/api/:username/trainings/:training/exercises/:exercise', function (req, res) {
-        res.json(req.exercise);
-    });
-
-    router.put('/api/:username/trainings/:training/reverseiscompleted', function (req, res) {
-        req.training.reverseIsCompleted(function (err, training) {
+    //endregion
+    //region Machine
+    router.param('machine', function (req, res, next, id) {
+        var query = Machine.findById(id);
+        query.exec(function (err, machine) {
             if (err) {
                 return next(err);
             }
-            res.json(training);
+            if (!machine) {
+                return next(new Error('can\'t find the machine'));
+            }
+            req.machine = machine;
+            return next();
+        })
+    });
+    router.get('/api/:username/machines', function (req, res) {
+        res.json(req.user.machines);
+    });
+    router.get('/api/:username/machines/:machine', function (req, res) {
+        res.json(req.machine);
+    });
+    router.post('/api/:username/machines', function (req, res, next) {
+        var machine = new Machine(req.body);
+        machine.user = req.user;
+        machine.save(function (err, machine) {
+            if (err) {
+                return next(err);
+            }
+            req.user.machines.push(machine);
+            req.user.save(function (err, machine) {
+                if (err) {
+                    return next(err);
+                }
+                res.json(machine);
+            });
         });
     });
-
+    //endregion
     module.exports = router;
 })();
