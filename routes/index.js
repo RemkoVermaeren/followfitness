@@ -53,7 +53,7 @@
     });
     //endregion
     //region User
-    router.param('username', function (req, res, next, id) {
+    router.param('username',function (req, res, next, id) {
         var query = User.findById(id);
 
         query.exec(function (err, user) {
@@ -68,7 +68,7 @@
             return next();
         });
     });
-    router.get('/api/:username', function (req, res) {
+    router.get('/api/:username', auth,function (req, res) {
         res.json(req.user);
     });
     //endregion
@@ -86,7 +86,7 @@
             return next();
         });
     });
-    router.post('/api/:username/trainings', function (req, res, next) {
+    router.post('/api/:username/trainings', auth ,function (req, res, next) {
         var training = new Training(req.body);
 
         training.user = req.user;
@@ -103,7 +103,7 @@
             });
         });
     });
-    router.get('/api/:username/trainings', function (req, res, next) {
+    router.get('/api/:username/trainings', auth ,function (req, res, next) {
         Training.find({
             user: req.user._id
         }).populate('exercises').exec(function (err, trainings) {
@@ -113,7 +113,7 @@
             res.json(trainings);
         });
     });
-    router.post('/api/:username/trainings/:training', function (req, res, next) {
+    router.post('/api/:username/trainings/:training', auth ,function (req, res, next) {
         var exercise = new Exercise(req.body);
         exercise.training = req.training;
         exercise.save(function (err, exercise) {
@@ -129,10 +129,10 @@
             });
         });
     });
-    router.get('/api/:username/trainings/:training', function (req, res) {
+    router.get('/api/:username/trainings/:training',auth , function (req, res) {
         res.json(req.training);
     });
-    router.put('/api/:username/trainings/:training', function (req, res) {
+    router.put('/api/:username/trainings/:training',auth , function (req, res) {
         console.log(req.user);
         var training = req.training;
         training.name = req.body.name;
@@ -146,7 +146,7 @@
         });
 
     });
-    router.delete('/api/:username/trainings/:training', function (req, res) {
+    router.delete('/api/:username/trainings/:training',auth , function (req, res) {
         var training = req.training;
         training.remove(function (err) {
             if (err) {
@@ -157,7 +157,7 @@
             });
         });
     });
-    router.put('/api/:username/trainings/:training/reverseiscompleted', function (req, res) {
+    router.put('/api/:username/trainings/:training/reverseiscompleted', auth ,function (req, res) {
         req.training.reverseIsCompleted(function (err, training) {
             if (err) {
                 return next(err);
@@ -180,7 +180,7 @@
             return next();
         });
     });
-    router.get('/api/:username/trainings/:training/exercises', function (req, res, next) {
+    router.get('/api/:username/trainings/:training/exercises', auth ,function (req, res, next) {
 
         Exercise.find({
             training: req.training._id
@@ -193,10 +193,10 @@
         });
 
     });
-    router.get('/api/:username/trainings/:training/exercises/:exercise', function (req, res) {
+    router.get('/api/:username/trainings/:training/exercises/:exercise',auth , function (req, res) {
         res.json(req.exercise);
     });
-    router.put('/api/:username/trainings/:training/exercises/:exercise', function (req, res) {
+    router.put('/api/:username/trainings/:training/exercises/:exercise', auth ,function (req, res) {
         var exercise = req.exercise;
         exercise.name = req.body.name;
         exercise.machine = req.body.machine;
@@ -209,7 +209,7 @@
         });
 
     });
-    router.delete('/api/:username/trainings/:training/exercises/:exercise', function (req, res) {
+    router.delete('/api/:username/trainings/:training/exercises/:exercise', auth ,function (req, res) {
         var exercise = req.exercise;
         exercise.remove(function (err) {
             if (err) {

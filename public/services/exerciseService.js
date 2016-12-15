@@ -24,14 +24,14 @@
         }
         function get(exerciseid){
             var user = authService.currentUserId();
-            return $http.get('/api/' +  user + "/trainings/" + trainingId + '/exercises/' + exerciseid).success(function(data) {
+            return $http.get('/api/' +  user + "/trainings/" + trainingId + '/exercises/' + exerciseid,{headers: {Authorization: 'Bearer ' + auth.getToken()}}).success(function(data) {
                 return data.data;
             });
         }
 
         function getAll() {
             var user = authService.currentUserId();
-            return $http.get('/api/' +  user + "/trainings/" + trainingId).success(function(data) {
+            return $http.get('/api/' +  user + "/trainings/" + trainingId,{headers: {Authorization: 'Bearer ' + auth.getToken()}}).success(function(data) {
                 return data.data;
             });
         }
@@ -39,7 +39,7 @@
         function create(exercise){
             var user = authService.currentUserId();
             exercise.sets = Object.keys(exercise.sets).map(function (key) { return exercise.sets[key];});
-            return $http.post('/api/' + user + '/trainings/' + trainingId, exercise).success(function(data) {
+            return $http.post('/api/' + user + '/trainings/' + trainingId, exercise,{headers: {Authorization: 'Bearer ' + auth.getToken()}}).success(function(data) {
                 return data;
             });
         }
@@ -50,11 +50,11 @@
             var user = authService.currentUserId();
             exercise.sets = Object.keys(exercise.sets).map(function (key) { return exercise.sets[key];});
             exercise.sets = exercise.sets.slice(0,numberOfSets);
-            return $http.put('/api/' + user + '/trainings/' + trainingId + '/exercises/' + id, exercise)
+            return $http.put('/api/' + user + '/trainings/' + trainingId + '/exercises/' + id, exercise,{headers: {Authorization: 'Bearer ' + auth.getToken()}})
         }
         function deleteExercise(exerciseid){
             var user = authService.currentUserId();
-            return $http.delete('/api/' + user + '/trainings/' + trainingId + '/exercises/' + exerciseid);
+            return $http.delete('/api/' + user + '/trainings/' + trainingId + '/exercises/' + exerciseid,{headers: {Authorization: 'Bearer ' + auth.getToken()}});
         }
     }
 

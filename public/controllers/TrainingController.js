@@ -50,7 +50,6 @@
 
         function addTraining() {
             return trainingService.create(vm.training).then(function (data) {
-                $log.log(data.data);
                 vm.trainings.push(data.data);
             }).then(function () {
                 getTrainings()

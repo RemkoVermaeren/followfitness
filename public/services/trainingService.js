@@ -19,14 +19,14 @@
         function getAll() {
             var user = authService.currentUserId() || 1;
 
-            return $http.get('/api/' +  user + '/trainings').success(function(data) {
+            return $http.get('/api/' +  user + '/trainings',{headers: {Authorization: 'Bearer ' + auth.getToken()}}).success(function(data) {
                 return data.data;
             });
         }
 
         function get(id) {
             var user = authService.currentUserId() || 1;
-            return $http.get('/api/' +  user + '/trainings/' + id).success(function(data) {
+            return $http.get('/api/' +  user + '/trainings/' + id,{headers: {Authorization: 'Bearer ' + auth.getToken()}}).success(function(data) {
                 return data.data;
             });
         }
@@ -35,27 +35,27 @@
             var user = authService.currentUserId();
             $log.log(user);
             $log.log(training);
-            return $http.post('/api/' + user + '/trainings', training).success(function(data) {
+            return $http.post('/api/' + user + '/trainings', training,{headers: {Authorization: 'Bearer ' + auth.getToken()}}).success(function(data) {
                 return data;
             });
         }
 
         function editTraining(id, training){
             var user = authService.currentUserId();
-            return $http.put('/api/' + user + '/trainings/'+ id ,training).success(function(data){
+            return $http.put('/api/' + user + '/trainings/'+ id ,training,{headers: {Authorization: 'Bearer ' + auth.getToken()}}).success(function(data){
                 return data;
             })
         }
 
         function deleteTraining(id){
             var user = authService.currentUserId();
-            return $http.delete('/api/' + user + '/trainings/'+ id).success(function(data){
+            return $http.delete('/api/' + user + '/trainings/'+ id,{headers: {Authorization: 'Bearer ' + auth.getToken()}}).success(function(data){
                 return data;
             })
         }
         function reverseIsCompleted(training){
             var user = authService.currentUserId();
-            return $http.put('/api/' + user + '/trainings/'+ training._id + '/reverseiscompleted' ,null).success(function(data){
+            return $http.put('/api/' + user + '/trainings/'+ training._id + '/reverseiscompleted' ,null,{headers: {Authorization: 'Bearer ' + auth.getToken()}}).success(function(data){
                 training.isCompleted = !training.isCompleted;
             })
         }
