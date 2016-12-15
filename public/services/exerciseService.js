@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular.module('followFitnessApp').factory('exerciseService', exerciseService);
@@ -19,42 +19,50 @@
 
         activate();
 
-        function activate(){
+        function activate() {
             return getAll();
         }
-        function get(exerciseid){
+
+        function get(exerciseid) {
             var user = authService.currentUserId();
-            return $http.get('/api/' +  user + "/trainings/" + trainingId + '/exercises/' + exerciseid,{headers: {Authorization: 'Bearer ' + auth.getToken()}}).success(function(data) {
+            return $http.get('/api/' + user + "/trainings/" + trainingId + '/exercises/' + exerciseid, {headers: {Authorization: 'Bearer ' + authService.getToken()}}).success(function (data) {
                 return data.data;
             });
         }
 
         function getAll() {
             var user = authService.currentUserId();
-            return $http.get('/api/' +  user + "/trainings/" + trainingId,{headers: {Authorization: 'Bearer ' + auth.getToken()}}).success(function(data) {
+            return $http.get('/api/' + user + "/trainings/" + trainingId, {headers: {Authorization: 'Bearer ' + authService.getToken()}}).success(function (data) {
                 return data.data;
             });
         }
 
-        function create(exercise){
+        function create(exercise) {
             var user = authService.currentUserId();
-            exercise.sets = Object.keys(exercise.sets).map(function (key) { return exercise.sets[key];});
-            return $http.post('/api/' + user + '/trainings/' + trainingId, exercise,{headers: {Authorization: 'Bearer ' + auth.getToken()}}).success(function(data) {
+            exercise.sets = Object.keys(exercise.sets).map(function (key) {
+                return exercise.sets[key];
+            });
+            return $http.post('/api/' + user + '/trainings/' + trainingId, exercise, {headers: {Authorization: 'Bearer ' + authService.getToken()}}).success(function (data) {
                 return data;
             });
         }
-        function setTrainingId(id){
+
+        function setTrainingId(id) {
             trainingId = id;
         }
-        function editExercise(id,exercise,numberOfSets) {
+
+        function editExercise(id, exercise, numberOfSets) {
             var user = authService.currentUserId();
-            exercise.sets = Object.keys(exercise.sets).map(function (key) { return exercise.sets[key];});
-            exercise.sets = exercise.sets.slice(0,numberOfSets);
-            return $http.put('/api/' + user + '/trainings/' + trainingId + '/exercises/' + id, exercise,{headers: {Authorization: 'Bearer ' + auth.getToken()}})
+            exercise.sets = Object.keys(exercise.sets).map(function (key) {
+                return exercise.sets[key];
+            });
+            exercise.sets = exercise.sets.slice(0, numberOfSets);
+            return $http.put('/api/' + user + '/trainings/' + trainingId + '/exercises/' + id, exercise, {headers: {Authorization: 'Bearer ' + authService.getToken()}})
         }
-        function deleteExercise(exerciseid){
+
+        function deleteExercise(exerciseid) {
             var user = authService.currentUserId();
-            return $http.delete('/api/' + user + '/trainings/' + trainingId + '/exercises/' + exerciseid,{headers: {Authorization: 'Bearer ' + auth.getToken()}});
+            return $http.delete('/api/' + user + '/trainings/' + trainingId + '/exercises/' + exerciseid, {headers: {Authorization: 'Bearer ' + authService.getToken()}});
         }
     }
 

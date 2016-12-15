@@ -34,9 +34,7 @@
         }
 
         function addExercise() {
-            return exerciseService.create(vm.exercise).then(function(data){
-                vm.exercises.push(data.data);
-            }).then($state.go('trainings'));
+            return exerciseService.create(vm.exercise).then($state.go('trainings'));
         }
         function getExercise() {
             return exerciseService.get($stateParams.exerciseid).then(function(data){
@@ -45,11 +43,11 @@
             });
         }
         function deleteExercise() {
-            return exerciseService.deleteExercise($stateParams.exerciseid);
+            return exerciseService.deleteExercise($stateParams.exerciseid).then($state.go('trainings'));
         }
 
         function editExercise(){
-            return exerciseService.editExercise($stateParams.exerciseid, vm.exercise,vm.numberOfSets);
+            return exerciseService.editExercise($stateParams.exerciseid, vm.exercise,vm.numberOfSets).then($state.go('trainings'));;
         }
     }
 

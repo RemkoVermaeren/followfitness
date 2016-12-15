@@ -5,6 +5,7 @@ angular.module('followFitnessApp').directive('setForm',
             replace: true,
             controller: 'ExerciseController',
             controllerAs: 'ctrl',
+            bindToController : true,
             templateUrl: 'directives/set-form.html'
         }
     }

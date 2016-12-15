@@ -198,39 +198,10 @@
             </div>
             <div class="form-group">
                 <label>Weights and repeats</label>
-                <!--<div ng-repeat="n in [].constructor(ctrl.numberOfSets) track by $index">-->
-                    <!--<p>Set {{$index + 1}}</p>-->
-                    <!--<input type="number" class="form-control" placeholder="Weight"-->
-                           <!--ng-model="ctrl.exercise.sets[$index].weight" required min="1"></input>-->
-                    <!--<br>-->
-                    <!--<input type="number" class="form-control" placeholder="Number of repeats"-->
-                           <!--ng-model="ctrl.exercise.sets[$index].repeat" required min="1"></input>-->
-                <!--</div>-->
                 <set-form></set-form>
             </div>
             <button class="btn btn-success" type="submit">Add exercise</button>
         </form>
-    </div>
-</script>
-<script type="text/ng-template" id="/exercises.html">
-    <div class="page-header">
-        <h2>Exercises</h2>
-        <uib-accordion>
-            <div uib-accordion-group class="panel-default" ng-repeat="exercise in ctrl.exercises">
-                <uib-accordion-heading>
-                    {{exercise.name}} <i class="pull-right glyphicon glyphicon-chevron-down"></i>
-                </uib-accordion-heading>
-                Machine : {{exercise.machine}}
-                <ul class="list-unstyled">
-                    <li ng-repeat="set in exercise.sets">
-                        Weight : {{set.weight}} , Repeat : {{set.repeat}}
-                    </li>
-                </ul>
-                <div class="pull-right">
-                    <p>TODO</p>
-                </div>
-            </div>
-        </uib-accordion>
     </div>
 </script>
 <script type="text/ng-template" id="/editexercise.html">
@@ -255,15 +226,16 @@
         </div>
         <div class="form-group">
             <label>Weights and repeats</label>
-            <!--<div ng-repeat="n in [].constructor(ctrl.numberOfSets) track by $index">-->
-                <!--<p>Set {{$index + 1}}</p>-->
-                <!--<input type="number" class="form-control" placeholder="Weight"-->
-                       <!--ng-model="ctrl.exercise.sets[$index].weight" required min="1"></input>-->
-                <!--<br>-->
-                <!--<input type="number" class="form-control" placeholder="Number of repeats"-->
-                       <!--ng-model="ctrl.exercise.sets[$index].repeat" required min="1"></input>-->
-            <!--</div>-->
-            <set-form></set-form>
+            <div ng-repeat="n in [].constructor(ctrl.numberOfSets) track by $index">
+                <p>Set {{$index + 1}}</p>
+                <input type="number" class="form-control" placeholder="Weight"
+                       ng-model="ctrl.exercise.sets[$index].weight" required min="1"></input>
+                <br>
+                <input type="number" class="form-control" placeholder="Number of repeats"
+                       ng-model="ctrl.exercise.sets[$index].repeat" required min="1"></input>
+            </div>
+
+            <!--<set-form></set-form> resets the init method-->
         </div>
         <button class="btn btn-success" type="submit">Edit</button>
     </form>
@@ -285,7 +257,6 @@
 <script src="/services/authService.js"></script>
 <script src="/services/trainingService.js"></script>
 <script src="/services/exerciseService.js"></script>
-<script src="/services/machineService.js"></script>
 <script src="/directives/setForm.js"></script>
 </body>
 

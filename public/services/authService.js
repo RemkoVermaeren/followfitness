@@ -7,8 +7,7 @@
     authService.$inject = ['$http', '$window', '$log'];
 
     function authService($http, $window, $log) {
-        var auth = {};
-        return {
+        var auth = {
             saveToken: saveToken,
             getToken: getToken,
             isLoggedIn: isLoggedIn,
@@ -18,6 +17,7 @@
             logOut: logOut,
             currentUserId: currentUserId
         };
+        return auth;
 
         function saveToken(token) {
             $window.localStorage['followfitness-app-token'] = token;
@@ -51,14 +51,14 @@
             }
         }
         function register(user) {
-          $log.log("Service: " + user.username);
-            return $http.post('/register', user);
+            return $http.post('/register', user).success(function(data) {
+                auth.saveToken(data.token);
+            });
         }
+
         function logIn(user) {
             return $http.post('/login', user).success(function(data) {
-                saveToken(data.token);
-            }).error(function(err){
-              return err;
+                auth.saveToken(data.token);
             });
         }
         function logOut(){

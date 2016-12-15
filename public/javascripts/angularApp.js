@@ -82,7 +82,7 @@
             controllerAs: 'ctrl'
 
         });
-        // $urlRouterProvider.otherwise('login');
+        $urlRouterProvider.otherwise('login');
     }
 
 })();

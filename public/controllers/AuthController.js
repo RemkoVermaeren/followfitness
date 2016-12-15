@@ -3,9 +3,9 @@
 
     angular.module('followFitnessApp').controller('AuthController', AuthController);
 
-    AuthController.$inject = ['$state', 'authService', '$log'];
+    AuthController.$inject = ['$state', 'authService'];
 
-    function AuthController($state, authService, $log) {
+    function AuthController($state, authService) {
         var vm = this;
         vm.register = register;
         vm.logIn = logIn;
@@ -14,21 +14,18 @@
         vm.currentUser = currentUser;
 
         function register() {
-            authService.register(vm.user).error(function (error) {
-                vm.error = error;
-                vm.message = error.message;
-            }).then(function () {
-               $state.go('trainings');
-
+            authService.register(vm.user).error(function(error) {
+                vm.error = error.message;
+            }).success(function() {
+                $state.go('trainings');
             });
         }
 
         function logIn() {
-            authService.logIn(vm.user).error(function (error) {
-                vm.error = error;
-                vm.message = error.message;
-            }).then(function () {
-               $state.go('trainings');
+            authService.logIn(vm.user).error(function(error) {
+                vm.error = error.message;
+            }).success(function() {
+                $state.go('trainings');
             });
         }
 
