@@ -49,7 +49,7 @@
         }
 
         function addTraining() {
-            return trainingService.create(vm.training).then(function (data) {
+            return trainingService.create(vm.training).success(function (data) {
                 vm.trainings.push(data.data);
             }).then(function () {
                 getTrainings()
@@ -57,7 +57,9 @@
         }
 
         function reverseIsCompleted(training) {
-            return trainingService.reverseIsCompleted(training);
+            return trainingService.reverseIsCompleted(training._id).success(function(data){
+                training.isCompleted = !training.isCompleted;
+            });
         }
 
         function convertDate() {

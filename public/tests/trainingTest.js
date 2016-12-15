@@ -2,25 +2,18 @@ describe('trainingService', function () {
     var trainingService, $scope, $httpBackend, $http;
 
     var trainingList = [{
-        id: '1',
+        id: 1,
         name: 'test1',
         description: 'desc1',
         isCompleted: true,
         exercises: []
     }, {
-        id: '2',
+        id: 2,
         name: 'test2',
         description: 'desc2',
         isCompleted: false,
         exercises: []
     }];
-    var single = {
-        id: '2',
-        name: 'test2',
-        description: 'desc2',
-        isCompleted: false,
-        exercises: []
-    };
 
     beforeEach(angular.mock.module('followFitnessApp'));
 
@@ -33,21 +26,32 @@ describe('trainingService', function () {
         inject(function (_$httpBackend_) {
             $httpBackend = _$httpBackend_;
             $httpBackend.when('GET', /\/api\/1\/trainings/).respond(200, trainingList);
-            $httpBackend.when('GET', /\/api\/1\/trainings\/(.+)/).respond(function (method, url, data, headers) {
+            $httpBackend.when('GET', /\/api\/1\/trainings\/(.+)/).respond(function (method, url, data, headers,params) {
                 var args = url.match(/\/api\/1\/trainings\/(.+)/);
                 for (i in trainingList) {
-                    if (trainingList[i].id === args[1]) {
-                        return [200, {training: trainingList[i]}];
+                    if (trainingList[i].id === parseInt(args[1])) {
+                        return [200, trainingList[i]];
                     }
                 }
                 return [400, {}];
             });
-            inject(function (_trainingService_) {
-                trainingService = _trainingService_;
+            $httpBackend.when('PUT', /\/api\/1\/trainings\/(.+)\/reverseiscompleted/).respond(function(method, url, data, headers,params) {
+                var args = url.match(/\/api\/1\/trainings\/(.+)\/reverseiscompleted/);
+                console.log(args);
+                for (i in trainingList) {
+                    if (trainingList[i].id === parseInt(args[1])) {
+                        trainingList[i].isCompleted = !trainingList[i].isCompleted;
+                        return [200, trainingList[i]];
+                    }
+                }
+                return [400, {}];
             });
-            inject(function ($rootScope) {
-                $scope = $rootScope.$new();
-            });
+        });
+        inject(function ($injector) {
+            trainingService = $injector.get('trainingService');
+        });
+        inject(function ($rootScope) {
+            $scope = $rootScope.$new();
         });
     });
 
@@ -67,29 +71,38 @@ describe('trainingService', function () {
         });
 
         it('should return a list of trainings', function () {
-            var userResult;
             trainingService.getAll().then(function (result) {
-                    userResult = result.data;
+                    $scope.trainings = result.data;
                 }
             );
             $httpBackend.flush();
-            expect(userResult).toEqual(trainingList);
+            expect($scope.trainings).toEqual(trainingList);
         });
     });
 
     describe('function .get()', function () {
-        // A simple test to verify the method findById exists
         it('should exist', function () {
             expect(trainingService.get).toBeDefined();
         });
         it('should return the first training object', function () {
-            var userResult;
             trainingService.get(1).then(function (result) {
-                    userResult = result.data;
+                    $scope.training = result.data;
                 }
             );
             $httpBackend.flush();
-            expect(userResult).toEqual(trainingList[0]);
+            expect($scope.training[0]).toEqual(trainingList[0]);
         });
     });
-});
+    describe('function reverseIsCompleted', function () {
+        it('should exist', function () {
+            expect(trainingService.reverseIsCompleted).toBeDefined();
+        });
+        it('should return reverse of the property isCompleted', function () {
+            var result;
+            trainingService.reverseIsCompleted(1).then(function(result){
+                $scope.training = result.data;
+            });
+            $httpBackend.flush();
+            expect($scope.training.isCompleted).toEqual(false);
+        });
+    });});

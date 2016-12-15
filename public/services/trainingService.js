@@ -52,10 +52,10 @@
                 return data;
             })
         }
-        function reverseIsCompleted(training){
-            var user = authService.currentUserId();
-            return $http.put('/api/' + user + '/trainings/'+ training._id + '/reverseiscompleted' ,null,{headers: {Authorization: 'Bearer ' + authService.getToken()}}).success(function(data){
-                training.isCompleted = !training.isCompleted;
+        function reverseIsCompleted(id){
+            var user =  authService.currentUserId() || 1;
+            return $http.put('/api/' + user + '/trainings/'+ id + '/reverseiscompleted' ,null,{headers: {Authorization: 'Bearer ' + authService.getToken()}}).success(function(data){
+                return data;
             })
         }
     }
