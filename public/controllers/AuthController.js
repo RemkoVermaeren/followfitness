@@ -14,17 +14,17 @@
         vm.currentUser = currentUser;
 
         function register() {
-            authService.register(vm.user).error(function(error) {
+            authService.register(vm.user).error(function (error) {
                 vm.error = error.message;
-            }).success(function() {
+            }).success(function () {
                 $state.go('trainings');
             });
         }
 
         function logIn() {
-            authService.logIn(vm.user).error(function(error) {
+            authService.logIn(vm.user).error(function (error) {
                 vm.error = error.message;
-            }).success(function() {
+            }).success(function () {
                 $state.go('trainings');
             });
         }
@@ -34,7 +34,9 @@
         }
 
         function logOut() {
-            return authService.logOut().then(function(){$state.go("login")});
+            return authService.logOut().then(function () {
+                $state.go("login")
+            });
 
         }
 

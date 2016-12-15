@@ -1,4 +1,4 @@
-(function() {
+(function () {
 
     'use strict';
 
@@ -26,6 +26,7 @@
         function getToken() {
             return $window.localStorage['followfitness-app-token'];
         }
+
         function isLoggedIn() {
             var token = getToken();
 
@@ -36,6 +37,7 @@
                 return false;
             }
         }
+
         function currentUser() {
             if (isLoggedIn()) {
                 var token = getToken();
@@ -43,25 +45,28 @@
                 return payload.username;
             }
         }
-        function currentUserId(){
+
+        function currentUserId() {
             if (isLoggedIn()) {
                 var token = getToken();
                 var payload = angular.fromJson($window.atob(token.split('.')[1]));
                 return payload._id;
             }
         }
+
         function register(user) {
-            return $http.post('/register', user).success(function(data) {
+            return $http.post('/register', user).success(function (data) {
                 auth.saveToken(data.token);
             });
         }
 
         function logIn(user) {
-            return $http.post('/login', user).success(function(data) {
+            return $http.post('/login', user).success(function (data) {
                 auth.saveToken(data.token);
             });
         }
-        function logOut(){
+
+        function logOut() {
             $window.localStorage.removeItem('followfitness-app-token');
         }
     }

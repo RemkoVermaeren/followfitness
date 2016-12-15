@@ -13,11 +13,6 @@
             templateUrl: '/trainings.html',
             controller: 'TrainingController',
             controllerAs: 'ctrl',
-            onEnter: ['$state', 'authService', function ($state, authService) {
-                if (!authService.isLoggedIn()) {
-                    $state.go('register');
-                }
-            }],
             resolve: {
                 trainings: ['trainingService', function (trainingService) {
                     return trainingService.getAll();

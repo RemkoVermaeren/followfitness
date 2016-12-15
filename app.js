@@ -13,7 +13,7 @@ require('./models/Exercises');
 require('./models/Trainings');
 require('./config/passport');
 
-mongoose.connect('mongodb://localhost/followfitness');
+mongoose.connect('mongodb://admin:admin@ds135818.mlab.com:35818/followfitness');
 
 
 var index = require('./routes/index');

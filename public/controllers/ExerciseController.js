@@ -1,4 +1,4 @@
-(function() {
+(function () {
 
     'use strict';
 
@@ -27,7 +27,7 @@
 
         function getExercises() {
             return exerciseService.getAll()
-                .then(function(data) {
+                .then(function (data) {
                     vm.exercises = data.data;
                     return vm.exercises;
                 });
@@ -36,21 +36,22 @@
         function addExercise() {
             return exerciseService.create(vm.exercise).then($state.go('trainings'));
         }
+
         function getExercise() {
-            return exerciseService.get($stateParams.exerciseid).then(function(data){
+            return exerciseService.get($stateParams.exerciseid).then(function (data) {
                 vm.exercise = data.data;
                 vm.numberOfSets = vm.exercise.sets.length;
             });
         }
+
         function deleteExercise() {
             return exerciseService.deleteExercise($stateParams.exerciseid).then($state.go('trainings'));
         }
 
-        function editExercise(){
-            return exerciseService.editExercise($stateParams.exerciseid, vm.exercise,vm.numberOfSets).then($state.go('trainings'));;
+        function editExercise() {
+            return exerciseService.editExercise($stateParams.exerciseid, vm.exercise, vm.numberOfSets).then($state.go('trainings'));
+
         }
     }
-
-
 
 })();

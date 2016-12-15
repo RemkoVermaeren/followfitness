@@ -17,14 +17,14 @@
         };
 
         function getAll() {
-            var user = authService.currentUserId();
+            var user = authService.currentUserId() || 1; //1 is for testing
             return $http.get('/api/' +  user + '/trainings',{headers: {Authorization: 'Bearer ' + authService.getToken()}}).success(function(data) {
                 return data.data;
             });
         }
 
         function get(id) {
-            var user = authService.currentUserId();
+            var user = authService.currentUserId() || 1; //1 is for testing
             return $http.get('/api/' +  user + '/trainings/' + id,{headers: {Authorization: 'Bearer ' + authService.getToken()}}).success(function(data) {
                 return data.data;
             });
