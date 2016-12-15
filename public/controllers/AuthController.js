@@ -14,7 +14,6 @@
         vm.currentUser = currentUser;
 
         function register() {
-            $log.log(vm.user);
             authService.register(vm.user).error(function (error) {
                 vm.error = error;
                 vm.message = error.message;

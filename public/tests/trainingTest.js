@@ -1,132 +1,95 @@
-describe('Users factory', function() {
-    var trainingService;
-    var authService;
-    var $scope;
-    var $httpBackend, $http;
+describe('trainingService', function () {
+    var trainingService, $scope, $httpBackend, $http;
 
     var trainingList = [{
         id: '1',
-        name: 'test'
-
+        name: 'test1',
+        description: 'desc1',
+        isCompleted: true,
+        exercises: []
     }, {
         id: '2',
-        name: 'test2'
-    }
+        name: 'test2',
+        description: 'desc2',
+        isCompleted: false,
+        exercises: []
+    }];
+    var single = {
+        id: '2',
+        name: 'test2',
+        description: 'desc2',
+        isCompleted: false,
+        exercises: []
+    };
 
-    ];
-
-
-
-
-    // Before each test load our api.users module
     beforeEach(angular.mock.module('followFitnessApp'));
 
-    // Before each test set our injected Users factory (_Users_) to our local Users variable
-    beforeEach(function() {
-        inject(function(_trainingService_) {
-            trainingService = _trainingService_;
-        });
-        inject(function(_authService_){
-            authService = _authService_;
-        });
+    beforeEach(function () {
 
-        inject(function(_$http_) {
+        inject(function (_$http_) {
             $http = _$http_;
         });
 
-        inject(function(_$httpBackend_) {
+        inject(function (_$httpBackend_) {
             $httpBackend = _$httpBackend_;
             $httpBackend.when('GET', /\/api\/1\/trainings/).respond(200, trainingList);
-            $httpBackend.when('GET', /\/api\/1\/trainings\/(.+)/).respond(function(method, url, data, headers,params){
+            $httpBackend.when('GET', /\/api\/1\/trainings\/(.+)/).respond(function (method, url, data, headers) {
                 var args = url.match(/\/api\/1\/trainings\/(.+)/);
-                console.log(params);
                 for (i in trainingList) {
                     if (trainingList[i].id === args[1]) {
-                        trainingList[i] = data;
-                        return [200, trainingList[i]];
+                        return [200, {training: trainingList[i]}];
                     }
                 }
-                return [400, {}]; // args[1] is de waarde tussen de haakjes in de reguliere expressie
+                return [400, {}];
             });
-
-
-        });
-
-        inject(function($rootScope) {
-            $scope = $rootScope.$new();
+            inject(function (_trainingService_) {
+                trainingService = _trainingService_;
+            });
+            inject(function ($rootScope) {
+                $scope = $rootScope.$new();
+            });
         });
     });
 
-    afterEach(function() { // Altijd plaatsen zodat alle calls die niet werden beantwoord errors geven
+    afterEach(function () {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
     });
 
-    // A simple test to verify the Users factory exists
-    it('should exist', function() {
+    it('should trainingService exist ', function () {
         expect(trainingService).toBeDefined();
     });
 
 
-
-    describe('.getAll()', function() {
-        it('should exist', function() {
+    describe('.getAll()', function () {
+        it('should getAll exist', function () {
             expect(trainingService.getAll).toBeDefined();
         });
 
-        it('should return a list of users', function() {
+        it('should return a list of trainings', function () {
             var userResult;
-            trainingService.getAll().then(function(result) {
+            trainingService.getAll().then(function (result) {
                     userResult = result.data;
                 }
             );
             $httpBackend.flush();
             expect(userResult).toEqual(trainingList);
-
-
         });
-
     });
 
-    describe('.get()', function() {
+    describe('function .get()', function () {
         // A simple test to verify the method findById exists
-        it('should exist', function() {
+        it('should exist', function () {
             expect(trainingService.get).toBeDefined();
         });
-
-        it('should return one user object if it exists', function() {
+        it('should return the first training object', function () {
             var userResult;
-            trainingService.get('2').then(function(result) {
+            trainingService.get(1).then(function (result) {
                     userResult = result.data;
                 }
             );
             $httpBackend.flush();
-            expect(userResult).toEqual(trainingList[1]);
+            expect(userResult).toEqual(trainingList[0]);
         });
-
     });
-
-    // describe('.update()',function(){
-    //     it('should exist', function() {
-    //         expect(trainingService.update).toBeDefined();
-    //     });
-    //
-    //     it('should return updated user object if it exists', function() {
-    //
-    //         var userResult;
-    //         trainingService.update('2', singleUserUpdate).then(function(result) {
-    //                 userResult = result.data;
-    //             }
-    //
-    //         );
-    //         $httpBackend.flush();
-    //         expect(userResult.username).toEqual("broervantest");
-    //         expect(userResult.id).toEqual("2");
-    //     });
-    //
-    // });
-
-
-
-
 });

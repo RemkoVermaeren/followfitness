@@ -5,7 +5,6 @@
     var router = express.Router();
     var mongoose = require('mongoose');
     var Exercise = mongoose.model('Exercise');
-    var Machine = mongoose.model('Machine');
     var Training = mongoose.model('Training');
     var User = mongoose.model('User');
     var passport = require('passport');
@@ -218,43 +217,6 @@
             }
             res.json({
                 message: 'Exercise deleted'
-            });
-        });
-    });
-    //endregion
-    //region Machine
-    router.param('machine', function (req, res, next, id) {
-        var query = Machine.findById(id);
-        query.exec(function (err, machine) {
-            if (err) {
-                return next(err);
-            }
-            if (!machine) {
-                return next(new Error('can\'t find the machine'));
-            }
-            req.machine = machine;
-            return next();
-        })
-    });
-    router.get('/api/:username/machines', function (req, res) {
-        res.json(req.user.machines);
-    });
-    router.get('/api/:username/machines/:machine', function (req, res) {
-        res.json(req.machine);
-    });
-    router.post('/api/:username/machines', function (req, res, next) {
-        var machine = new Machine(req.body);
-        machine.user = req.user;
-        machine.save(function (err, machine) {
-            if (err) {
-                return next(err);
-            }
-            req.user.machines.push(machine);
-            req.user.save(function (err, machine) {
-                if (err) {
-                    return next(err);
-                }
-                res.json(machine);
             });
         });
     });

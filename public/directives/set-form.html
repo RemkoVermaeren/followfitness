@@ -1,0 +1,8 @@
+<div ng-repeat="n in [].constructor(ctrl.numberOfSets) track by $index">
+    <p>Set {{$index + 1}}</p>
+    <input type="number" class="form-control" placeholder="Weight"
+           ng-model="ctrl.exercise.sets[$index].weight" required min="1"></input>
+    <br>
+    <input type="number" class="form-control" placeholder="Number of repeats"
+           ng-model="ctrl.exercise.sets[$index].repeat" required min="1"></input>
+</div>

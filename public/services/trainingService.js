@@ -17,16 +17,15 @@
         };
 
         function getAll() {
-            // var user = authService.currentUserId();
-            var user = 1;
+            var user = authService.currentUserId() || 1;
+
             return $http.get('/api/' +  user + '/trainings').success(function(data) {
                 return data.data;
             });
         }
 
         function get(id) {
-            // var user = authService.currentUserId();
-            var user = 1;
+            var user = authService.currentUserId() || 1;
             return $http.get('/api/' +  user + '/trainings/' + id).success(function(data) {
                 return data.data;
             });

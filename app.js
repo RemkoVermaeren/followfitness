@@ -10,7 +10,6 @@ var passport = require('passport');
 
 require('./models/Users');
 require('./models/Exercises');
-require('./models/Machines');
 require('./models/Trainings');
 require('./config/passport');
 
