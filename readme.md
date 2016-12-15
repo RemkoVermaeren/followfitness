@@ -1,5 +1,5 @@
 # Follow fitness by @RemkoVermaeren
-
+Live on http://followfitness.herokuapp.com/
 #Installation notes
 
 ##jsonwebtoken and passport
