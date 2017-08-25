@@ -113,6 +113,28 @@
             res.json(trainings);
         });
     });
+    router.get('/api/:username/completedtrainings', auth ,function (req, res, next) {
+        Training.find({
+            user: req.user._id,
+            isCompleted: true
+        }).populate('exercises').exec(function (err, trainings) {
+            if (err) {
+                return next(err);
+            }
+            res.json(trainings);
+        });
+    });
+    router.get('/api/:username/uncompletedtrainings', auth ,function (req, res, next) {
+        Training.find({
+            user: req.user._id,
+            isCompleted: false
+        }).populate('exercises').exec(function (err, trainings) {
+            if (err) {
+                return next(err);
+            }
+            res.json(trainings);
+        });
+    });
     router.post('/api/:username/trainings/:training', auth ,function (req, res, next) {
         var exercise = new Exercise(req.body);
         exercise.training = req.training;
