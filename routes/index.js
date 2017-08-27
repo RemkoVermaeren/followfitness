@@ -232,7 +232,8 @@
     });
     router.put('/api/:username/trainings/:training/exercises/:exercise/sets', auth ,function (req, res) {
         var exercise = req.exercise;
-        exercise.sets.push(req.body.sets);
+        var newSet = {repeat: req.body.repeats, weight: req.body.weights};
+        exercise.sets.push(newSet);
         exercise.save(function (err) {
             if (err) {
                 res.send(err);
