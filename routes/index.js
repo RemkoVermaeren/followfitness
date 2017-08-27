@@ -203,7 +203,6 @@
         });
     });
     router.get('/api/:username/trainings/:training/exercises', auth ,function (req, res, next) {
-
         Exercise.find({
             training: req.training._id
         }, function (err, exercises) {
@@ -213,8 +212,8 @@
 
             res.json(exercises);
         });
-
     });
+
     router.get('/api/:username/trainings/:training/exercises/:exercise',auth , function (req, res) {
         res.json(req.exercise);
     });
@@ -231,6 +230,18 @@
         });
 
     });
+    router.put('/api/:username/trainings/:training/exercises/:exercise/sets', auth ,function (req, res) {
+        var exercise = req.exercise;
+        exercise.sets.push(req.body.sets);
+        exercise.save(function (err) {
+            if (err) {
+                res.send(err);
+            }
+            res.json(exercise);
+        });
+
+    });
+
     router.delete('/api/:username/trainings/:training/exercises/:exercise', auth ,function (req, res) {
         var exercise = req.exercise;
         exercise.remove(function (err) {
@@ -242,6 +253,7 @@
             });
         });
     });
+
     //endregion
     module.exports = router;
 })();
